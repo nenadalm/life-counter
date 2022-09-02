@@ -114,18 +114,7 @@
 
 (defn do-render [c compiler]
   (binding [*current-component* c]
-    (if (dev?)
-      ;; Log errors, without using try/catch (and mess up call stack)
-      (let [ok (array false)]
-        (try
-          (let [res (wrap-render c compiler)]
-            (aset ok 0 true)
-            res)
-          (finally
-            (when-not (aget ok 0)
-              (error (str "Error rendering component"
-                          (comp-name)))))))
-      (wrap-render c compiler))))
+    (wrap-render c compiler)))
 
 
 ;;; Method wrapping
@@ -340,7 +329,8 @@
       (set! (.-cljs$lang$ctorStr cmp) display-name)
       (set! (.-cljs$lang$ctorPrWriter cmp)
             (fn [this writer opt]
-              (cljs.core/-write writer display-name))))
+              (cljs.core/-write writer display-name)))
+      (js/Object.defineProperty cmp "name" #js {:value display-name :writable false}))
 
     (set! (.-cljs$lang$type cmp) true)
     (set! (.. cmp -prototype -constructor) cmp)
@@ -401,17 +391,7 @@
 
 (defn functional-do-render [compiler c]
   (binding [*current-component* c]
-    (if (dev?)
-      ;; Log errors, without using try/catch (and mess up call stack)
-      (let [ok (array false)]
-        (try
-          (let [res (functional-wrap-render compiler c)]
-            (aset ok 0 true)
-            res)
-          (finally
-            (when-not (aget ok 0)
-              (error (str "Error rendering component" (comp-name)))))))
-      (functional-wrap-render compiler c))))
+    (functional-wrap-render compiler c)))
 
 (defn functional-render [compiler ^clj jsprops]
   (if util/*non-reactive*
@@ -491,7 +471,9 @@
   ;; Or not currently - the memo wrap is required.
   (or (cached-react-class compiler tag)
       (let [f (fn [jsprops] (functional-render compiler jsprops))
-            _ (set! (.-displayName f) (util/fun-name tag))
+            display-name (util/fun-name tag)
+            _ (set! (.-displayName f) display-name)
+            _ (js/Object.defineProperty f "name" #js {:value display-name :writable false})
             f (react/memo f functional-render-memo-fn)]
         (cache-react-class compiler tag f)
         f)))

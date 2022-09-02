@@ -364,7 +364,7 @@ var key_12855 = temp__5808__auto___12854;
 return reagent.impl.protocols.make_element(compiler,argv,reagent.impl.template.global$module$react.Fragment,jsprops,first_child);
 });
 reagent.impl.template.tag_name_cache = ({});
-reagent.impl.template.cached_parse = (function reagent$impl$template$cached_parse(x){
+reagent.impl.template.cached_parse = (function reagent$impl$template$cached_parse(this$,x,_){
 var temp__5806__auto__ = reagent.impl.template.cache_get(reagent.impl.template.tag_name_cache,x);
 if((temp__5806__auto__ == null)){
 var v = reagent.impl.template.parse_tag(x);
@@ -389,6 +389,7 @@ return ({});
 })();
 var first_child = (first + ((hasprops)?(1):(0)));
 if(reagent.impl.input.input_component_QMARK_(component)){
+var react_key = reagent.impl.util.get_react_key(props);
 var input_class = (function (){var or__4223__auto__ = compiler.reagentInput;
 if(cljs.core.truth_(or__4223__auto__)){
 return or__4223__auto__;
@@ -399,7 +400,7 @@ var x = reagent.impl.component.create_class(reagent.impl.input.input_spec,compil
 return x;
 }
 })();
-return reagent.impl.protocols.as_element(compiler,cljs.core.with_meta(new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [input_class,argv,component,jsprops,first_child,compiler], null),cljs.core.meta(argv)));
+return reagent.impl.protocols.as_element(compiler,cljs.core.with_meta(new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [input_class,argv,component,jsprops,first_child,compiler], null),cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([(cljs.core.truth_(react_key)?new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,react_key], null):null),cljs.core.meta(argv)], 0))));
 } else {
 var temp__5808__auto___12856 = reagent.impl.util.get_react_key(cljs.core.meta(argv));
 if((temp__5808__auto___12856 == null)){
@@ -477,7 +478,7 @@ var pos = n.indexOf(">");
 var G__12864 = pos;
 switch (G__12864) {
 case (-1):
-return reagent.impl.template.native_element(reagent.impl.template.cached_parse(n),v,(1),compiler);
+return reagent.impl.template.native_element(reagent.impl.protocols.parse_tag(compiler,n,tag),v,(1),compiler);
 
 break;
 case (0):
@@ -575,8 +576,9 @@ return x;
 }
 });
 reagent.impl.template.create_compiler = (function reagent$impl$template$create_compiler(opts){
-var id = cljs.core.gensym.cljs$core$IFn$_invoke$arity$0();
+var id = cljs.core.gensym.cljs$core$IFn$_invoke$arity$1("reagent-compiler");
 var fn_to_element = (cljs.core.truth_(cljs.core.cst$kw$function_DASH_components.cljs$core$IFn$_invoke$arity$1(opts))?reagent.impl.template.maybe_function_element:reagent.impl.template.reag_element);
+var parse_fn = cljs.core.get.cljs$core$IFn$_invoke$arity$3(opts,cljs.core.cst$kw$parse_DASH_tag,reagent.impl.template.cached_parse);
 if((typeof reagent !== 'undefined') && (typeof reagent.impl !== 'undefined') && (typeof reagent.impl.template !== 'undefined') && (typeof reagent.impl.template.t_reagent$impl$template12871 !== 'undefined')){
 } else {
 
@@ -586,10 +588,11 @@ if((typeof reagent !== 'undefined') && (typeof reagent.impl !== 'undefined') && 
  * @implements {cljs.core.IMeta}
  * @implements {cljs.core.IWithMeta}
 */
-reagent.impl.template.t_reagent$impl$template12871 = (function (opts,id,fn_to_element,meta12872){
+reagent.impl.template.t_reagent$impl$template12871 = (function (opts,id,fn_to_element,parse_fn,meta12872){
 this.opts = opts;
 this.id = id;
 this.fn_to_element = fn_to_element;
+this.parse_fn = parse_fn;
 this.meta12872 = meta12872;
 this.cljs$lang$protocol_mask$partition0$ = 393216;
 this.cljs$lang$protocol_mask$partition1$ = 0;
@@ -597,7 +600,7 @@ this.cljs$lang$protocol_mask$partition1$ = 0;
 (reagent.impl.template.t_reagent$impl$template12871.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_12873,meta12872__$1){
 var self__ = this;
 var _12873__$1 = this;
-return (new reagent.impl.template.t_reagent$impl$template12871(self__.opts,self__.id,self__.fn_to_element,meta12872__$1));
+return (new reagent.impl.template.t_reagent$impl$template12871(self__.opts,self__.id,self__.fn_to_element,self__.parse_fn,meta12872__$1));
 }));
 
 (reagent.impl.template.t_reagent$impl$template12871.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_12873){
@@ -614,6 +617,12 @@ var this$__$1 = this;
 return self__.id;
 }));
 
+(reagent.impl.template.t_reagent$impl$template12871.prototype.reagent$impl$protocols$Compiler$parse_tag$arity$3 = (function (this$,tag_name,tag_value){
+var self__ = this;
+var this$__$1 = this;
+return (self__.parse_fn.cljs$core$IFn$_invoke$arity$3 ? self__.parse_fn.cljs$core$IFn$_invoke$arity$3(this$__$1,tag_name,tag_value) : self__.parse_fn.call(null,this$__$1,tag_name,tag_value));
+}));
+
 (reagent.impl.template.t_reagent$impl$template12871.prototype.reagent$impl$protocols$Compiler$as_element$arity$2 = (function (this$,x){
 var self__ = this;
 var this$__$1 = this;
@@ -627,7 +636,7 @@ return reagent.impl.template.make_element(this$__$1,argv,component,jsprops,first
 }));
 
 (reagent.impl.template.t_reagent$impl$template12871.getBasis = (function (){
-return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$opts,cljs.core.cst$sym$id,cljs.core.cst$sym$fn_DASH_to_DASH_element,cljs.core.cst$sym$meta12872], null);
+return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$opts,cljs.core.cst$sym$id,cljs.core.cst$sym$fn_DASH_to_DASH_element,cljs.core.cst$sym$parse_DASH_fn,cljs.core.cst$sym$meta12872], null);
 }));
 
 (reagent.impl.template.t_reagent$impl$template12871.cljs$lang$type = true);
@@ -641,13 +650,13 @@ return cljs.core._write(writer__4462__auto__,"reagent.impl.template/t_reagent$im
 /**
  * Positional factory function for reagent.impl.template/t_reagent$impl$template12871.
  */
-reagent.impl.template.__GT_t_reagent$impl$template12871 = (function reagent$impl$template$create_compiler_$___GT_t_reagent$impl$template12871(opts__$1,id__$1,fn_to_element__$1,meta12872){
-return (new reagent.impl.template.t_reagent$impl$template12871(opts__$1,id__$1,fn_to_element__$1,meta12872));
+reagent.impl.template.__GT_t_reagent$impl$template12871 = (function reagent$impl$template$create_compiler_$___GT_t_reagent$impl$template12871(opts__$1,id__$1,fn_to_element__$1,parse_fn__$1,meta12872){
+return (new reagent.impl.template.t_reagent$impl$template12871(opts__$1,id__$1,fn_to_element__$1,parse_fn__$1,meta12872));
 });
 
 }
 
-return (new reagent.impl.template.t_reagent$impl$template12871(opts,id,fn_to_element,cljs.core.PersistentArrayMap.EMPTY));
+return (new reagent.impl.template.t_reagent$impl$template12871(opts,id,fn_to_element,parse_fn,cljs.core.PersistentArrayMap.EMPTY));
 });
 reagent.impl.template.default_compiler_STAR_ = reagent.impl.template.create_compiler(cljs.core.PersistentArrayMap.EMPTY);
 reagent.impl.template.default_compiler = reagent.impl.template.default_compiler_STAR_;

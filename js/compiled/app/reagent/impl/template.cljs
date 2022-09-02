@@ -192,7 +192,7 @@
 
 (def tag-name-cache #js {})
 
-(defn cached-parse [x]
+(defn cached-parse [this x _]
   (if-some [s (cache-get tag-name-cache x)]
     s
     (let [v (parse-tag x)]
@@ -207,13 +207,19 @@
                     #js {})
         first-child (+ first (if hasprops 1 0))]
     (if (input/input-component? component)
-      (let [input-class (or (.-reagentInput compiler)
+      (let [;; Also read :key from props map, because
+            ;; input wrapper will not place the key in useful place.
+            react-key (util/get-react-key props)
+            input-class (or (.-reagentInput compiler)
                             (let [x (comp/create-class input/input-spec compiler)]
                               (set! (.-reagentInput compiler) x)
                               x))]
-        (-> [input-class argv component jsprops first-child compiler]
-            (with-meta (meta argv))
-            (->> (p/as-element compiler))))
+        (p/as-element
+          compiler
+          (with-meta [input-class argv component jsprops first-child compiler]
+                     (merge (when react-key
+                              {:key react-key})
+                            (meta argv)))))
       (do
         (when-some [key (-> (meta argv) util/get-react-key)]
           (set! (.-key jsprops) key))
@@ -252,7 +258,7 @@
         n (name tag)
         pos (.indexOf n ">")]
     (case pos
-      -1 (native-element (cached-parse n) v 1 compiler)
+      -1 (native-element (p/parse-tag compiler n tag) v 1 compiler)
       0 (assert (= ">" n) (util/hiccup-err v (comp/comp-name) "Invalid Hiccup tag"))
       ;; Support extended hiccup syntax, i.e :div.bar>a.foo
       ;; Apply metadata (e.g. :key) to the outermost element.
@@ -294,13 +300,17 @@
         :else x))
 
 (defn create-compiler [opts]
-  (let [id (gensym)
+  (let [id (gensym "reagent-compiler")
         fn-to-element (if (:function-components opts)
                         maybe-function-element
-                        reag-element)]
+                        reag-element)
+        parse-fn (get opts :parse-tag cached-parse)]
+
     (reify p/Compiler
       ;; This is used to as cache key to cache component fns per compiler
       (get-id [this] id)
+      (parse-tag [this tag-name tag-value]
+        (parse-fn this tag-name tag-value))
       (as-element [this x]
         (as-element this x fn-to-element))
       (make-element [this argv component jsprops first-child]

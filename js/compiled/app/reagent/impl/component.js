@@ -210,19 +210,7 @@ var _STAR_current_component_STAR__orig_val__12795 = reagent.impl.component._STAR
 var _STAR_current_component_STAR__temp_val__12796 = c;
 (reagent.impl.component._STAR_current_component_STAR_ = _STAR_current_component_STAR__temp_val__12796);
 
-try{var ok = [false];
-try{var res = reagent.impl.component.wrap_render(c,compiler);
-(ok[(0)] = true);
-
-return res;
-}finally {if(cljs.core.truth_((ok[(0)]))){
-} else {
-if(cljs.core.truth_(reagent.debug.has_console)){
-(cljs.core.truth_(reagent.debug.tracking)?reagent.debug.track_console:console).error(["Error rendering component",reagent.impl.component.comp_name()].join(''));
-} else {
-}
-}
-}
+try{return reagent.impl.component.wrap_render(c,compiler);
 }finally {(reagent.impl.component._STAR_current_component_STAR_ = _STAR_current_component_STAR__orig_val__12795);
 }});
 reagent.impl.component.rat_opts = new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$no_DASH_cache,true], null);
@@ -559,6 +547,8 @@ if(cljs.core.truth_(display_name)){
 (cmp.cljs$lang$ctorPrWriter = (function (this$,writer,opt){
 return cljs.core._write(writer,display_name);
 }));
+
+Object.defineProperty(cmp,"name",({"value": display_name, "writable": false}));
 } else {
 }
 
@@ -674,19 +664,7 @@ var _STAR_current_component_STAR__orig_val__12810 = reagent.impl.component._STAR
 var _STAR_current_component_STAR__temp_val__12811 = c;
 (reagent.impl.component._STAR_current_component_STAR_ = _STAR_current_component_STAR__temp_val__12811);
 
-try{var ok = [false];
-try{var res = reagent.impl.component.functional_wrap_render(compiler,c);
-(ok[(0)] = true);
-
-return res;
-}finally {if(cljs.core.truth_((ok[(0)]))){
-} else {
-if(cljs.core.truth_(reagent.debug.has_console)){
-(cljs.core.truth_(reagent.debug.tracking)?reagent.debug.track_console:console).error(["Error rendering component",reagent.impl.component.comp_name()].join(''));
-} else {
-}
-}
-}
+try{return reagent.impl.component.functional_wrap_render(compiler,c);
 }finally {(reagent.impl.component._STAR_current_component_STAR_ = _STAR_current_component_STAR__orig_val__12810);
 }});
 reagent.impl.component.functional_render = (function reagent$impl$component$functional_render(compiler,jsprops){
@@ -769,7 +747,9 @@ return or__4223__auto__;
 var f = (function (jsprops){
 return reagent.impl.component.functional_render(compiler,jsprops);
 });
-var _ = (f.displayName = reagent.impl.util.fun_name(tag));
+var display_name = reagent.impl.util.fun_name(tag);
+var _ = (f.displayName = display_name);
+var ___$1 = Object.defineProperty(f,"name",({"value": display_name, "writable": false}));
 var f__$1 = reagent.impl.component.global$module$react.memo(f,reagent.impl.component.functional_render_memo_fn);
 reagent.impl.component.cache_react_class(compiler,tag,f__$1);
 

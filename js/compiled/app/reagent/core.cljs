@@ -368,7 +368,7 @@
                                 compiler)))
 
 (defn render
-  {:deprecated "0.10.0"}
+  {:deprecated "0.10.0"
+   :superseded-by "reagent.dom/render"}
   [& _]
-  (throw (js/Error. "Reagent.core/render function was moved to reagent.dom namespace in Reagent v1.0."))
-  nil)
+  (throw (js/Error. "Reagent.core/render function was moved to reagent.dom namespace in Reagent v1.0.")))
