@@ -6,10 +6,6 @@
    [app.views :as views]
    [app.events :as events]))
 
-(defn- dev-setup []
-  (when config/debug?
-    (println "dev mode")))
-
 (defn mount-root []
   (re-frame/clear-subscription-cache!)
   (reagent-dom/render [views/app]
@@ -20,9 +16,17 @@
           .-serviceWorker
           (.register "worker.js")))
 
+(defn- dev-setup []
+  (when config/debug?
+    (println "dev mode")))
+
+(defn- prod-setup []
+  (when-not config/debug?
+    (register-worker)))
+
 (defn ^:export init []
   (dev-setup)
-  (register-worker)
+  (prod-setup)
   (re-frame/dispatch-sync [::events/init])
   (mount-root))
 
