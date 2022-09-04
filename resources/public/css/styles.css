@@ -37,3 +37,17 @@ input {
 .life-input--button:active { opacity: 0.7; }
 
 .life-input--amount { font-size: 5rem; position: absolute; left: calc(50% - 4rem); width: 8rem; height: 8rem; border-radius: 4rem; display: flex; justify-content: center; align-items: center; }
+
+.reset-button {
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+    background: #000;
+    color: #fff;
+    border: none;
+    left: calc(50% - 1.5rem);
+    top: calc(50% - 1.5rem);
+}
+.reset-button:focus-visible { outline: none; }
+.reset-button:active { opacity: 0.7; }

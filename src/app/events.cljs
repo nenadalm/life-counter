@@ -2,17 +2,24 @@
   (:require
    [re-frame.core :as re-frame]))
 
+(def ^:private initial-state
+  {:players
+   {"0" {:id "0"
+         :amount 50
+         :color "#fa3737"}
+    "1" {:id "1"
+         :amount 50
+         :color "#3797fa"}}})
+
 (re-frame/reg-event-db
  ::init
- (fn [db _]
-   (assoc db
-          :players
-          {"0" {:id "0"
-                :amount 50
-                :color "#fa3737"}
-           "1" {:id "1"
-                :amount 50
-                :color "#3797fa"}})))
+ (fn [_ _]
+   initial-state))
+
+(re-frame/reg-event-db
+ ::reset
+ (fn [_ _]
+   initial-state))
 
 (re-frame/reg-event-db
  ::increase-amount
