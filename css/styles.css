@@ -1,5 +1,7 @@
 html, body, #app { height: 100%; margin: 0; padding: 0; }
 
+input { box-sizing: border-box; width: 100%; }
+
 .dialog--actions {
     display: flex;
     justify-content: space-between;
