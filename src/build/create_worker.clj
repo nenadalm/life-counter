@@ -4,11 +4,12 @@
    [build.util :as u]))
 
 (defn- urls-to-cache []
-  [(str "?" (u/asset-hash "index.html"))
-   (u/asset "index.html")
+  [""
+   "index.html"
+   "manifest.json"
+   "img/icon.svg"
    (u/asset "js/app.js")
-   (u/asset "css/styles.css")
-   (u/asset "img/icon.svg")])
+   (u/asset "css/styles.css")])
 
 (defn render []
   (str/replace
