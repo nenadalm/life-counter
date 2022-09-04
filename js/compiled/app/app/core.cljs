@@ -15,8 +15,14 @@
   (reagent-dom/render [views/app]
                       (.getElementById js/document "app")))
 
+(defn register-worker []
+  (some-> js/navigator
+          .-serviceWorker
+          (.register "worker.js")))
+
 (defn ^:export init []
   (dev-setup)
+  (register-worker)
   (re-frame/dispatch-sync [::events/init])
   (mount-root))
 

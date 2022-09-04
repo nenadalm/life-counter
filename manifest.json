@@ -1,0 +1,9 @@
+{
+    "name": "Life counter",
+    "icons": [{
+        "src": "img/icon.svg",
+        "sizes": "any"
+    }],
+    "display": "fullscreen",
+    "start_url": "index.html"
+}

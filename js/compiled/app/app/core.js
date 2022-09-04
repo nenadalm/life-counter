@@ -19,8 +19,19 @@ re_frame.core.clear_subscription_cache_BANG_();
 
 return reagent.dom.render.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.app], null),document.getElementById("app"));
 });
+app.core.register_worker = (function app$core$register_worker(){
+var G__14239 = navigator;
+var G__14239__$1 = (((G__14239 == null))?null:G__14239.serviceWorker);
+if((G__14239__$1 == null)){
+return null;
+} else {
+return G__14239__$1.register("worker.js");
+}
+});
 app.core.init = (function app$core$init(){
 app.core.dev_setup();
+
+app.core.register_worker();
 
 re_frame.core.dispatch_sync(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$events_SLASH_init], null));
 
