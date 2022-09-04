@@ -6,13 +6,15 @@ resources/public/js/app.js:
 resources/public/index.html: resources/public/js/app.js
 	clojure -M -m build.create-index > $@
 
+resources/public/worker.js: resources/public/index.html
+	clojure -M -m build.create-worker > $@
+
 .PHONY: clean
 clean:
-	rm -rf resources/public/js
-	rm -rf resources/public/index.html
+	rm -rf resources/public/js resources/public/index.html resources/public/worker.js
 
 .PHONY: all
-all: resources/public/index.html
+all: resources/public/worker.js
 
 .PHONY: test
 test:
