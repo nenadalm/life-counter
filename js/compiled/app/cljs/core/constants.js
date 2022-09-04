@@ -3,6 +3,7 @@ goog.require('cljs.core');
 cljs.core.cst$sym$form = new cljs.core.Symbol(null,"form","form",16469056,null);
 cljs.core.cst$kw$dyn_DASH_v = new cljs.core.Keyword(null,"dyn-v","dyn-v",949994592);
 cljs.core.cst$sym$tag = new cljs.core.Symbol(null,"tag","tag",350170304,null);
+cljs.core.cst$kw$app$events_SLASH_reset = new cljs.core.Keyword("app.events","reset","app.events/reset",-990818080);
 cljs.core.cst$sym$_AMPERSAND_ = new cljs.core.Symbol(null,"&","&",-2144855648,null);
 cljs.core.cst$kw$unnamed = new cljs.core.Keyword(null,"unnamed","unnamed",-26044928);
 cljs.core.cst$kw$app$events_SLASH_init = new cljs.core.Keyword("app.events","init","app.events/init",944149024);
@@ -69,6 +70,7 @@ cljs.core.cst$sym$shift = new cljs.core.Symbol(null,"shift","shift",-1657295705,
 cljs.core.cst$sym$iters = new cljs.core.Symbol(null,"iters","iters",719353031,null);
 cljs.core.cst$kw$childContextTypes = new cljs.core.Keyword(null,"childContextTypes","childContextTypes",578717991);
 cljs.core.cst$kw$button = new cljs.core.Keyword(null,"button","button",1456579943);
+cljs.core.cst$kw$button$reset_DASH_button = new cljs.core.Keyword(null,"button.reset-button","button.reset-button",-2078106201);
 cljs.core.cst$kw$db = new cljs.core.Keyword(null,"db","db",993250759);
 cljs.core.cst$kw$fx_DASH_handler = new cljs.core.Keyword(null,"fx-handler","fx-handler",-549783097);
 cljs.core.cst$kw$sub = new cljs.core.Keyword(null,"sub","sub",-2093760025);

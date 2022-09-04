@@ -53,10 +53,16 @@
        (when-let [e @event]
          [amount-modifier {:event e :player-id player-id :on-request-close #(reset! event nil)}])])))
 
+(defn reset-button []
+  [:button.reset-button
+   {:on-click (fn [_] (re-frame/dispatch [::events/reset]))}
+   "Reset"])
+
 (defn counter []
   [:div.counter
    [life-input {:player-id "0"}]
-   [life-input {:player-id "1"}]])
+   [life-input {:player-id "1"}]
+   [reset-button]])
 
 (defn app []
   [:<>

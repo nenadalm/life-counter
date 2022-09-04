@@ -3,8 +3,12 @@ goog.provide('app.events');
 goog.require('cljs.core');
 goog.require('cljs.core.constants');
 goog.require('re_frame.core');
-re_frame.core.reg_event_db.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$app$events_SLASH_init,(function (db,_){
-return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(db,cljs.core.cst$kw$players,new cljs.core.PersistentArrayMap(null, 2, ["0",new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$id,"0",cljs.core.cst$kw$amount,(50),cljs.core.cst$kw$color,"#fa3737"], null),"1",new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$id,"1",cljs.core.cst$kw$amount,(50),cljs.core.cst$kw$color,"#3797fa"], null)], null));
+app.events.initial_state = new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$players,new cljs.core.PersistentArrayMap(null, 2, ["0",new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$id,"0",cljs.core.cst$kw$amount,(50),cljs.core.cst$kw$color,"#fa3737"], null),"1",new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$id,"1",cljs.core.cst$kw$amount,(50),cljs.core.cst$kw$color,"#3797fa"], null)], null)], null);
+re_frame.core.reg_event_db.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$app$events_SLASH_init,(function (_,___$1){
+return app.events.initial_state;
+}));
+re_frame.core.reg_event_db.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$app$events_SLASH_reset,(function (_,___$1){
+return app.events.initial_state;
 }));
 re_frame.core.reg_event_db.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$app$events_SLASH_increase_DASH_amount,(function (db,p__14161){
 var vec__14162 = p__14161;
