@@ -7,15 +7,31 @@ body {
 
 input { box-sizing: border-box; width: 100%; }
 
+.dialog--header {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .dialog--actions {
     display: flex;
     justify-content: space-between;
 }
 
-.dialog button {
-    height: 5rem;
-    min-width: 5rem;
-    border-radius: 2rem;
+.dialog button.close {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    background: none;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+
+}
+
+.dialog button.ok {
+    width: 100%;
+    font-size: 3rem;
 }
 
 .dialog h1 {

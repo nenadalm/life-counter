@@ -3,7 +3,8 @@
    [reagent.core :as reagent]
    [re-frame.core :as re-frame]
    [app.subs :as subs]
-   [app.events :as events]))
+   [app.events :as events]
+   [app.components.icons.views :as i]))
 
 (defn amount-modifier [{:keys [event player-id on-request-close]}]
   [:dialog.dialog
@@ -11,6 +12,12 @@
            (when (and el (not (.-open el)))
              (.addEventListener el "cancel" (fn [] (on-request-close)))
              (.showModal el)))}
+   [:div.dialog--header
+    [:button.close
+     {:type "button"
+      :on-click (fn []
+                  (on-request-close))}
+     [i/close]]]
    [:form
     {:on-submit (fn [e]
                   (.preventDefault e)
@@ -22,14 +29,10 @@
            "-")]
     [:input
      {:type "number"
-      :name "amount"}]
+      :name "amount"
+      :ref (fn [el] (when el (js/setTimeout #(.focus el) 0)))}]
     [:div.dialog--actions
-     [:button
-      {:type "button"
-       :on-click (fn []
-                   (on-request-close))}
-      "Cancel"]
-     [:button
+     [:button.ok
       "Update"]]]])
 
 (defn life-input [{:keys [player-id]}]
