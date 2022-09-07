@@ -24,9 +24,24 @@
   (when-not config/debug?
     (register-worker)))
 
+(defn- prevent-screen-lock []
+  (when-some [wake-lock (.-wakeLock js/navigator)]
+    (-> wake-lock
+        (.request "screen")
+        (.then (fn []
+                 (js/document.addEventListener
+                  "visibilitychange"
+                  (fn [_]
+                    (when (= "visible" (.-visibilityState js/document))
+                      (-> wake-lock
+                          (.request "screen")
+                          (.catch (fn [_] (js/alert "Cannot prevent screen from locking.")))))))))
+        (.catch (fn [_] (js/alert "Cannot prevent screen from locking."))))))
+
 (defn ^:export init []
   (dev-setup)
   (prod-setup)
+  (prevent-screen-lock)
   (re-frame/dispatch-sync [::events/init])
   (mount-root))
 

@@ -35,10 +35,33 @@ return null;
 return app.core.register_worker();
 }
 });
+app.core.prevent_screen_lock = (function app$core$prevent_screen_lock(){
+var temp__5808__auto__ = navigator.wakeLock;
+if((temp__5808__auto__ == null)){
+return null;
+} else {
+var wake_lock = temp__5808__auto__;
+return wake_lock.request("screen").then((function (){
+return document.addEventListener("visibilitychange",(function (_){
+if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2("visible",document.visibilityState)){
+return wake_lock.request("screen").catch((function (___$1){
+return alert("Cannot prevent screen from locking.");
+}));
+} else {
+return null;
+}
+}));
+})).catch((function (_){
+return alert("Cannot prevent screen from locking.");
+}));
+}
+});
 app.core.init = (function app$core$init(){
 app.core.dev_setup();
 
 app.core.prod_setup();
+
+app.core.prevent_screen_lock();
 
 re_frame.core.dispatch_sync(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$events_SLASH_init], null));
 
