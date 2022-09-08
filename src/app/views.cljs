@@ -35,6 +35,11 @@
      [:button.ok
       "Update"]]]])
 
+(defn amount-history [{:keys [history]}]
+  [:div.life-input--amount-history
+   (for [{:keys [time amount]} history]
+     ^{:key time} [:div (str (when (< 0 amount) "+")) amount])])
+
 (defn life-input [{:keys [player-id]}]
   (reagent/with-let [event (reagent/atom nil)]
     (let [player @(re-frame/subscribe [::subs/player player-id])
@@ -53,6 +58,7 @@
        [:div.life-input--amount
         {:style {:background-color color}}
         amount]
+       [amount-history {:history @(re-frame/subscribe [::subs/amount-changes player-id])}]
        (when-let [e @event]
          [amount-modifier {:event e :player-id player-id :on-request-close #(reset! event nil)}])])))
 
