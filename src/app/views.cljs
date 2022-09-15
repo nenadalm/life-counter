@@ -69,8 +69,8 @@
 
 (defn counter []
   [:div.counter
-   [life-input {:player-id "0"}]
-   [life-input {:player-id "1"}]
+   (for [id @(re-frame/subscribe [::subs/player-ids])]
+     ^{:key id} [life-input {:player-id id}])
    [reset-button]])
 
 (defn app []

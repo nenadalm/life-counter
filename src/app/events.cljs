@@ -7,16 +7,25 @@
  (fn [coeffects _]
    (assoc coeffects :time (.getTime (js/Date.)))))
 
+(def ^:private default-settings
+  {:hp 50
+   :players [{:id "0" :color "#fa3737"}
+             {:id "1" :color "#3797fa"}]})
+
+(defn- create-game [settings]
+  {:players (reduce
+             (fn [res player]
+               (assoc
+                res
+                (:id player)
+                (assoc player :amount (:hp settings))))
+             {}
+             (:players settings))
+   :events []})
+
 (def ^:private initial-state
-  {:players
-   {"0" {:id "0"
-         :amount 50
-         :color "#fa3737"}
-    "1" {:id "1"
-         :amount 50
-         :color "#3797fa"}}
-   :game
-   {:events []}})
+  {:settings default-settings
+   :game (create-game default-settings)})
 
 (re-frame/reg-event-db
  ::init
@@ -33,7 +42,7 @@
  [(re-frame/inject-cofx :time)]
  (fn [{:keys [db time]} [_ id by-n]]
    {:db (-> db
-            (update-in [:players id :amount] + by-n)
+            (update-in [:game :players id :amount] + by-n)
             (update-in [:game :events] conj {:time time :amount by-n :player id})
             (dissoc :action))}))
 
@@ -42,6 +51,6 @@
  [(re-frame/inject-cofx :time)]
  (fn [{:keys [db time]} [_ id by-n]]
    {:db (-> db
-            (update-in [:players id :amount] - by-n)
+            (update-in [:game :players id :amount] - by-n)
             (update-in [:game :events] conj {:time time :amount (- by-n) :player id})
             (dissoc :action))}))
