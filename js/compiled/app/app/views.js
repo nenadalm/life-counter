@@ -151,7 +151,49 @@ return re_frame.core.dispatch(new cljs.core.PersistentVector(null, 1, 5, cljs.co
 })], null),"Reset"], null);
 });
 app.views.counter = (function app$views$counter(){
-return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$counter,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.life_input,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$player_DASH_id,"0"], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.life_input,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$player_DASH_id,"1"], null)], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.reset_button], null)], null);
+return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$counter,(function (){var iter__4622__auto__ = (function app$views$counter_$_iter__14200(s__14201){
+return (new cljs.core.LazySeq(null,(function (){
+var s__14201__$1 = s__14201;
+while(true){
+var temp__5804__auto__ = cljs.core.seq(s__14201__$1);
+if(temp__5804__auto__){
+var s__14201__$2 = temp__5804__auto__;
+if(cljs.core.chunked_seq_QMARK_(s__14201__$2)){
+var c__4620__auto__ = cljs.core.chunk_first(s__14201__$2);
+var size__4621__auto__ = cljs.core.count(c__4620__auto__);
+var b__14203 = cljs.core.chunk_buffer(size__4621__auto__);
+if((function (){var i__14202 = (0);
+while(true){
+if((i__14202 < size__4621__auto__)){
+var id = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__4620__auto__,i__14202);
+cljs.core.chunk_append(b__14203,cljs.core.with_meta(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.life_input,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$player_DASH_id,id], null)], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,id], null)));
+
+var G__14204 = (i__14202 + (1));
+i__14202 = G__14204;
+continue;
+} else {
+return true;
+}
+break;
+}
+})()){
+return cljs.core.chunk_cons(cljs.core.chunk(b__14203),app$views$counter_$_iter__14200(cljs.core.chunk_rest(s__14201__$2)));
+} else {
+return cljs.core.chunk_cons(cljs.core.chunk(b__14203),null);
+}
+} else {
+var id = cljs.core.first(s__14201__$2);
+return cljs.core.cons(cljs.core.with_meta(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.life_input,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$player_DASH_id,id], null)], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,id], null)),app$views$counter_$_iter__14200(cljs.core.rest(s__14201__$2)));
+}
+} else {
+return null;
+}
+break;
+}
+}),null,null));
+});
+return iter__4622__auto__(cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$subs_SLASH_player_DASH_ids], null))));
+})(),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.reset_button], null)], null);
 });
 app.views.app = (function app$views$app(){
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$_LT__GT_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.counter], null)], null);

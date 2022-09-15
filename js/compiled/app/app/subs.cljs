@@ -3,9 +3,14 @@
    [re-frame.core :as re-frame]))
 
 (re-frame/reg-sub
+ ::player-ids
+ (fn [db _]
+   (keys (get-in db [:game :players]))))
+
+(re-frame/reg-sub
  ::player
  (fn [db [_ id]]
-   (get-in db [:players id])))
+   (get-in db [:game :players id])))
 
 (re-frame/reg-sub
  ::amount-changes
