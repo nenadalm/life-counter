@@ -38,6 +38,7 @@
     <meta name=\"app-version\" content=\"" (app-version) "\">
     <title>Life counter</title>
     <link rel=\"stylesheet\" href=\"" (asset "css/styles.css") "\">
+    <link rel=\"icon\" href=\"img/icon.svg\" type=\"image/svg+xml\">
     <link rel=\"manifest\" href=\"" (asset "manifest.json") "\">
   </head>
   <body>
