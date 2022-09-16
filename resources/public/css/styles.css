@@ -1,7 +1,13 @@
+:root {
+    --text-color: rgba(255, 255, 255, 0.87);
+    --background-color: #121212;
+    --background-e1: rgba(255, 255, 255, 0.07);
+}
+
 html, body, #app { height: 100%; margin: 0; padding: 0; }
 
 body {
-    background-color: #000;
+    background-color: var(--background-color);
     overscroll-behavior-y: contain;
     user-select: none;
 }
@@ -15,6 +21,13 @@ input {
     width: 100%;
     font-size: 2rem;
     margin-bottom: 2rem;
+    background-color: var(--background-e1);
+    border: none;
+    color: var(--text-color);
+}
+
+.dialog {
+    background-color: var(--background-color);
 }
 
 .dialog--header {
@@ -36,16 +49,20 @@ input {
     width: 3rem;
     height: 3rem;
     border-radius: 1.5rem;
-
+    background-color: var(--background-e1);
+    color: var(--text-color);
 }
 
 .dialog button.ok {
     width: 100%;
     font-size: 3rem;
+    background-color: var(--background-e1);
+    color: var(--text-color);
 }
 
 .dialog h1 {
     text-align: center;
+    color: var(--text-color);
 }
 
 .counter {
@@ -80,8 +97,8 @@ input {
     width: 3rem;
     height: 3rem;
     border-radius: 1.5rem;
-    background: #000;
-    color: #fff;
+    background: var(--background-color);
+    color: var(--text-color);
     border: none;
     left: calc(50% - 1.5rem);
     top: calc(50% - 1.5rem);
@@ -91,7 +108,7 @@ input {
 
 
 .menu {
-    color: #fff;
+    color: var(--text-color);
     padding: 1.5rem;
 }
 
@@ -104,13 +121,16 @@ input {
     width: 3rem;
     height: 3rem;
     border-radius: 1.5rem;
-    color: inherit;
+    background-color: var(--background-e1);
+    color: var(--text-color);
 }
 
 .menu button.action {
     width: 100%;
     font-size: 3rem;
     margin-bottom: 2rem;
+    background-color: var(--background-e1);
+    color: var(--text-color);
 }
 
 .menu--header {

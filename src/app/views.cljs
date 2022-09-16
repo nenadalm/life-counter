@@ -46,20 +46,23 @@
 (defn life-input [{:keys [player-id]}]
   (reagent/with-let [event (reagent/atom nil)]
     (let [player @(re-frame/subscribe [::subs/player player-id])
-          {:keys [amount color]} player]
+          {:keys [amount color text-color]} player]
       [:div.life-input
        [:button.life-input--button
-        {:style {:background-color color}
+        {:style {:color text-color
+                 :background-color color}
          :on-click (fn []
                      (reset! event ::events/decrease-amount))}
         "-"]
        [:button.life-input--button
-        {:style {:background-color color}
+        {:style {:color text-color
+                 :background-color color}
          :on-click (fn []
                      (reset! event ::events/increase-amount))}
         "+"]
        [:div.life-input--amount
-        {:style {:background-color color}}
+        {:style {:color text-color
+                 :background-color color}}
         amount]
        [amount-history {:history @(re-frame/subscribe [::subs/amount-changes player-id])}]
        (when-let [e @event]
