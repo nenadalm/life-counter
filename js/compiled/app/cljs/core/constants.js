@@ -110,6 +110,7 @@ cljs.core.cst$kw$re_DASH_frame$router_SLASH_fsm_DASH_trigger = new cljs.core.Key
 cljs.core.cst$kw$default_DASH_value = new cljs.core.Keyword(null,"default-value","default-value",232220170);
 cljs.core.cst$sym$v = new cljs.core.Symbol(null,"v","v",1661996586,null);
 cljs.core.cst$kw$operation = new cljs.core.Keyword(null,"operation","operation",-1267664310);
+cljs.core.cst$kw$text_DASH_color = new cljs.core.Keyword(null,"text-color","text-color",1728708298);
 cljs.core.cst$kw$div$menu = new cljs.core.Keyword(null,"div.menu","div.menu",-175336694);
 cljs.core.cst$kw$do_DASH_fx = new cljs.core.Keyword(null,"do-fx","do-fx",1194163050);
 cljs.core.cst$sym$riter = new cljs.core.Symbol(null,"riter","riter",-237834262,null);
