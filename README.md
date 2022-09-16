@@ -1,3 +1,3 @@
 # Life counter
 
-WIP
+Simple life counter app for 2 players.
