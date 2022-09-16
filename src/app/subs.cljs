@@ -32,3 +32,8 @@
  ::settings
  (fn [db _]
    (:settings db)))
+
+(re-frame/reg-sub
+ ::app-info
+ (fn [db _]
+   (:app-info db)))

@@ -80,7 +80,8 @@
    [reset-button]])
 
 (defn menu []
-  (let [settings @(re-frame/subscribe [::subs/settings])]
+  (let [settings @(re-frame/subscribe [::subs/settings])
+        app-info @(re-frame/subscribe [::subs/app-info])]
     [:div.menu
      [:div.menu--header
       [:button.close
@@ -101,7 +102,14 @@
       [:button.action "Save & reset game"]]
      [:button.action
       {:on-click (fn [_] (re-frame/dispatch [::events/reset]))}
-      "Reset game"]]))
+      "Reset game"]
+     [:div.menu--footer
+      [:div.issue-link
+       [:a
+        {:href "https://github.com/nenadalm/life-counter/issues"}
+        "Report issue / request feature"]]
+      [:div.app-version
+       (str "Version: " (:version app-info))]]]))
 
 (defn app []
   [:<>

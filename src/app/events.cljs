@@ -7,6 +7,16 @@
  (fn [coeffects _]
    (assoc coeffects :time (.getTime (js/Date.)))))
 
+(re-frame/reg-cofx
+ :app-version
+ (fn [coeffects _]
+   (assoc coeffects
+          :app-version
+          (or (some-> "meta[name=app-version]"
+                      js/document.querySelector
+                      (.getAttribute "content"))
+              "unknown"))))
+
 (def ^:private default-settings
   {:hp 50
    :players [{:id "0" :color "#cf6666" :text-color "rgba(0, 0, 0, 0.87)"}
@@ -28,10 +38,12 @@
          :game (create-game (:settings db))
          :page :game))
 
-(re-frame/reg-event-db
+(re-frame/reg-event-fx
  ::init
- (fn [_ _]
-   (reset-game {:settings default-settings})))
+ [(re-frame/inject-cofx :app-version)]
+ (fn [{:keys [app-version]} _]
+   {:db (reset-game {:settings default-settings
+                     :app-info {:version app-version}})}))
 
 (re-frame/reg-event-db
  ::reset
