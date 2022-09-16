@@ -6,6 +6,9 @@
    [app.events :as events]
    [app.components.icons.views :as i]))
 
+(defn- parse-int [s]
+  (js/Math.round (js/Number s)))
+
 (defn amount-modifier [{:keys [event player-id on-request-close]}]
   [:dialog.dialog
    {:ref (fn [el]
@@ -22,7 +25,7 @@
     {:on-submit (fn [e]
                   (.preventDefault e)
                   (re-frame/dispatch
-                   [event player-id (js/Math.round (js/Number (.get (js/FormData. (.-currentTarget e)) "amount")))])
+                   [event player-id (parse-int (.get (js/FormData. (.-currentTarget e)) "amount"))])
                   (on-request-close))}
     [:h1 (if (= event ::events/increase-amount)
            "+"
@@ -63,9 +66,9 @@
          [amount-modifier {:event e :player-id player-id :on-request-close #(reset! event nil)}])])))
 
 (defn reset-button []
-  [:button.reset-button
-   {:on-click (fn [_] (re-frame/dispatch [::events/reset]))}
-   "Reset"])
+  [:button.menu-button
+   {:on-click (fn [_] (re-frame/dispatch [::events/open-page :menu]))}
+   "Menu"])
 
 (defn counter []
   [:div.counter
@@ -73,6 +76,32 @@
      ^{:key id} [life-input {:player-id id}])
    [reset-button]])
 
+(defn menu []
+  (let [settings @(re-frame/subscribe [::subs/settings])]
+    [:div.menu
+     [:div.menu--header
+      [:button.close
+       {:on-click (fn [_] (re-frame/dispatch [::events/open-page :game]))}
+       [i/close]]]
+     [:form
+      {:on-submit (fn [e]
+                    (.preventDefault e)
+                    (re-frame/dispatch
+                     [::events/save-settings
+                      {:hp (parse-int (.get (js/FormData. (.-currentTarget e)) "hp"))}]))}
+      [:label
+       "Starting life"
+       [:input
+        {:type "number"
+         :name "hp"
+         :default-value (:hp settings)}]]
+      [:button.action "Save & reset game"]]
+     [:button.action
+      {:on-click (fn [_] (re-frame/dispatch [::events/reset]))}
+      "Reset game"]]))
+
 (defn app []
   [:<>
-   [counter]])
+   (case @(re-frame/subscribe [::subs/page])
+     :menu [menu]
+     :game [counter])])

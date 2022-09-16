@@ -6,7 +6,16 @@ body {
     user-select: none;
 }
 
-input { box-sizing: border-box; width: 100%; }
+label {
+    font-size: 1.2rem;
+}
+
+input {
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
 
 .dialog--header {
     display: flex;
@@ -39,11 +48,6 @@ input { box-sizing: border-box; width: 100%; }
     text-align: center;
 }
 
-input {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-}
-
 .counter {
     height: 100%;
     display: flex;
@@ -71,7 +75,7 @@ input {
     pointer-events: none;
 }
 
-.reset-button {
+.menu-button {
     position: absolute;
     width: 3rem;
     height: 3rem;
@@ -84,3 +88,32 @@ input {
 }
 .reset-button:focus-visible { outline: none; }
 .reset-button:active { opacity: 0.7; }
+
+
+.menu {
+    color: #fff;
+    padding: 1.5rem;
+}
+
+.menu button.close {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    background: none;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+    color: inherit;
+}
+
+.menu button.action {
+    width: 100%;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+.menu--header {
+    display: flex;
+    justify-content: flex-end;
+}

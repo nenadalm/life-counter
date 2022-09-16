@@ -20,3 +20,9 @@ return cljs.core.transduce.cljs$core$IFn$_invoke$arity$4(cljs.core.comp.cljs$cor
 return cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$player.cljs$core$IFn$_invoke$arity$1(event),id);
 })),cljs.core.take.cljs$core$IFn$_invoke$arity$1((10))),cljs.core.conj,cljs.core.PersistentVector.EMPTY,cljs.core.rseq(cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(db,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$events], null))));
 })], 0));
+re_frame.core.reg_sub.cljs$core$IFn$_invoke$arity$variadic(cljs.core.cst$kw$app$subs_SLASH_page,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([(function (db,_){
+return cljs.core.cst$kw$page.cljs$core$IFn$_invoke$arity$1(db);
+})], 0));
+re_frame.core.reg_sub.cljs$core$IFn$_invoke$arity$variadic(cljs.core.cst$kw$app$subs_SLASH_settings,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([(function (db,_){
+return cljs.core.cst$kw$settings.cljs$core$IFn$_invoke$arity$1(db);
+})], 0));

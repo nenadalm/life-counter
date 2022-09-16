@@ -23,19 +23,27 @@
              (:players settings))
    :events []})
 
-(def ^:private initial-state
-  {:settings default-settings
-   :game (create-game default-settings)})
+(defn- reset-game [db]
+  (assoc db
+         :game (create-game (:settings db))
+         :page :game))
 
 (re-frame/reg-event-db
  ::init
  (fn [_ _]
-   initial-state))
+   (reset-game {:settings default-settings})))
 
 (re-frame/reg-event-db
  ::reset
- (fn [_ _]
-   initial-state))
+ (fn [db _]
+   (reset-game db)))
+
+(re-frame/reg-event-db
+ ::save-settings
+ (fn [db [_ settings]]
+   (-> db
+       (update :settings merge settings)
+       reset-game)))
 
 (re-frame/reg-event-fx
  ::increase-amount
@@ -54,3 +62,8 @@
             (update-in [:game :players id :amount] - by-n)
             (update-in [:game :events] conj {:time time :amount (- by-n) :player id})
             (dissoc :action))}))
+
+(re-frame/reg-event-db
+ ::open-page
+ (fn [db [_ page]]
+   (assoc db :page page)))
