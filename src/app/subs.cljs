@@ -22,3 +22,13 @@
     conj
     []
     (rseq (get-in db [:game :events])))))
+
+(re-frame/reg-sub
+ ::page
+ (fn [db _]
+   (:page db)))
+
+(re-frame/reg-sub
+ ::settings
+ (fn [db _]
+   (:settings db)))
