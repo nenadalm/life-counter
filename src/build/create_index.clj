@@ -34,4 +34,5 @@
 </html>"))
 
 (defn -main []
-  (println (render)))
+  (println (render))
+  (shutdown-agents))
