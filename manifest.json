@@ -2,8 +2,21 @@
     "name": "Life counter",
     "icons": [{
         "src": "img/icon.svg",
-        "sizes": "any"
+        "sizes": "any",
+        "type": "image/svg+xml"
+    },{
+        "src": "img/icon.svg",
+        "sizes": "any",
+        "type": "image/svg+xml",
+        "purpose": "maskable"
+    }, {
+        "src": "img/icon_512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
     }],
+    "background_color": "#121212",
+    "theme_color": "#121212",
     "display": "fullscreen",
     "start_url": "index.html"
 }
