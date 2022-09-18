@@ -20,11 +20,13 @@
   <head>
     <meta charset=\"utf-8\">
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+    <meta name=\"theme-color\" content=\"#121212\">
     <meta name=\"app-version\" content=\"" (app-version) "\">
     <meta name=\"description\" content=\"Simple life counter app that works offline.\">
     <title>Life counter</title>
     <link rel=\"stylesheet\" href=\"" (u/asset "css/styles.css") "\">
     <link rel=\"icon\" href=\"img/icon.svg\" type=\"image/svg+xml\">
+    <link rel=\"apple-touch-icon\" href=\"img/icon.png\">
     <link rel=\"manifest\" href=\"" (u/asset "manifest.json") "\">
   </head>
   <body>
