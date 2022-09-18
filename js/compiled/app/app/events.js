@@ -22,7 +22,7 @@ return "unknown";
 }
 })());
 }));
-app.events.default_settings = new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$hp,(50),cljs.core.cst$kw$players,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$id,"0",cljs.core.cst$kw$color,"#cf6666",cljs.core.cst$kw$text_DASH_color,"rgba(0, 0, 0, 0.87)"], null),new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$id,"1",cljs.core.cst$kw$color,"#3797fa",cljs.core.cst$kw$text_DASH_color,"rgba(255, 255, 255, 0.87)"], null)], null)], null);
+app.events.default_settings = new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$hp,(50),cljs.core.cst$kw$players,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$id,"0",cljs.core.cst$kw$color,"#cf6666",cljs.core.cst$kw$text_DASH_color,"rgba(0, 0, 0, 0.87)"], null),new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$id,"1",cljs.core.cst$kw$color,"#3797fa",cljs.core.cst$kw$text_DASH_color,"rgba(0, 0, 0, 0.87)"], null)], null)], null);
 app.events.create_game = (function app$events$create_game(settings){
 return new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$players,cljs.core.reduce.cljs$core$IFn$_invoke$arity$3((function (res,player){
 return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(res,cljs.core.cst$kw$id.cljs$core$IFn$_invoke$arity$1(player),cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(player,cljs.core.cst$kw$amount,cljs.core.cst$kw$hp.cljs$core$IFn$_invoke$arity$1(settings)));
