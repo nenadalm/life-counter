@@ -26,7 +26,7 @@
     <title>Life counter</title>
     <link rel=\"stylesheet\" href=\"" (u/asset "css/styles.css") "\">
     <link rel=\"icon\" href=\"img/icon.svg\" type=\"image/svg+xml\">
-    <link rel=\"apple-touch-icon\" href=\"img/icon.png\">
+    <link rel=\"apple-touch-icon\" href=\"img/icon_192.png\">
     <link rel=\"manifest\" href=\"" (u/asset "manifest.json") "\">
   </head>
   <body>
