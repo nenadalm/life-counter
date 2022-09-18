@@ -2,4 +2,5 @@
 /node_modules/
 /resources/public/js/
 /resources/public/worker.js
+/resources/public/manifest.json
 /resources/public/index.html

@@ -3,7 +3,10 @@
 resources/public/js/app.js:
 	clojure -M -m figwheel.main -bo min
 
-resources/public/index.html: resources/public/js/app.js
+resources/public/manifest.json:
+	clojure -M -m build.create-manifest > $@
+
+resources/public/index.html: resources/public/js/app.js resources/public/manifest.json
 	clojure -M -m build.create-index > $@
 
 resources/public/worker.js: resources/public/index.html
@@ -11,7 +14,7 @@ resources/public/worker.js: resources/public/index.html
 
 .PHONY: clean
 clean:
-	rm -rf resources/public/js resources/public/index.html resources/public/worker.js
+	rm -rf resources/public/js resources/public/index.html resources/public/worker.js resources/public/manifest.json
 
 .PHONY: all
 all: resources/public/worker.js
