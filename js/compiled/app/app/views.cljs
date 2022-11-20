@@ -4,39 +4,43 @@
    [re-frame.core :as re-frame]
    [app.subs :as subs]
    [app.events :as events]
-   [app.components.icons.views :as i]))
+   [app.components.icons.views :as i]
+   [app.util :as u]))
 
 (defn- parse-int [s]
   (js/Math.round (js/Number s)))
 
 (defn amount-modifier [{:keys [event player-id on-request-close]}]
-  [:dialog.dialog
-   {:ref (fn [el]
-           (when (and el (not (.-open el)))
-             (.addEventListener el "cancel" (fn [] (on-request-close)))
-             (.showModal el)))}
-   [:div.dialog--header
-    [:button.close
-     {:type "button"
-      :on-click (fn []
-                  (on-request-close))}
-     [i/close]]]
-   [:form
-    {:on-submit (fn [e]
-                  (.preventDefault e)
-                  (re-frame/dispatch
-                   [event player-id (parse-int (.get (js/FormData. (.-currentTarget e)) "amount"))])
-                  (on-request-close))}
-    [:h1 (if (= event ::events/increase-amount)
-           "+"
-           "-")]
-    [:input
-     {:type "number"
-      :name "amount"
-      :ref (fn [el] (when el (js/setTimeout #(.focus el) 0)))}]
-    [:div.dialog--actions
-     [:button.ok
-      "Update"]]]])
+  (let [on-request-close (fn []
+                           (u/hide-keyboard)
+                           (on-request-close))]
+    [:dialog.dialog
+     {:ref (fn [el]
+             (when (and el (not (.-open el)))
+               (.addEventListener el "cancel" (fn [] (on-request-close)))
+               (.showModal el)))}
+     [:div.dialog--header
+      [:button.close
+       {:type "button"
+        :on-click (fn []
+                    (on-request-close))}
+       [i/close]]]
+     [:form
+      {:on-submit (fn [e]
+                    (.preventDefault e)
+                    (re-frame/dispatch
+                     [event player-id (parse-int (.get (js/FormData. (.-currentTarget e)) "amount"))])
+                    (on-request-close))}
+      [:h1 (if (= event ::events/increase-amount)
+             "+"
+             "-")]
+      [:input
+       {:type "number"
+        :name "amount"
+        :ref (fn [el] (when el (js/setTimeout #(.focus el) 0)))}]
+      [:div.dialog--actions
+       [:button.ok
+        "Update"]]]]))
 
 (defn amount-history [{:keys [history]}]
   [:div.life-input--amount-history
