@@ -61,19 +61,19 @@
  ::increase-amount
  [(re-frame/inject-cofx :time)]
  (fn [{:keys [db time]} [_ id by-n]]
-   {:db (-> db
-            (update-in [:game :players id :amount] + by-n)
-            (update-in [:game :events] conj {:time time :amount by-n :player id})
-            (dissoc :action))}))
+   {:db (cond-> db
+          (not (== 0 by-n)) (-> (update-in [:game :players id :amount] + by-n)
+                                (update-in [:game :events] conj {:time time :amount by-n :player id}))
+          :always (dissoc :action))}))
 
 (re-frame/reg-event-fx
  ::decrease-amount
  [(re-frame/inject-cofx :time)]
  (fn [{:keys [db time]} [_ id by-n]]
-   {:db (-> db
-            (update-in [:game :players id :amount] - by-n)
-            (update-in [:game :events] conj {:time time :amount (- by-n) :player id})
-            (dissoc :action))}))
+   {:db (cond-> db
+          (not (== 0 by-n)) (-> (update-in [:game :players id :amount] - by-n)
+                                (update-in [:game :events] conj {:time time :amount (- by-n) :player id}))
+          :always (dissoc :action))}))
 
 (re-frame/reg-event-db
  ::open-page
