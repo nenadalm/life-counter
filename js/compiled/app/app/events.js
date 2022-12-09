@@ -55,22 +55,30 @@ var vec__14178 = p__14176;
 var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14178,(0),null);
 var id = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14178,(1),null);
 var by_n = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14178,(2),null);
-return new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$db,cljs.core.dissoc.cljs$core$IFn$_invoke$arity$2(cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(db,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$players,id,cljs.core.cst$kw$amount], null),cljs.core._PLUS_,by_n),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$events], null),cljs.core.conj,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$time,time,cljs.core.cst$kw$amount,by_n,cljs.core.cst$kw$player,id], null)),cljs.core.cst$kw$action)], null);
+return new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$db,(function (){var G__14181 = db;
+var G__14181__$1 = (((!(((0) === by_n))))?cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(G__14181,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$players,id,cljs.core.cst$kw$amount], null),cljs.core._PLUS_,by_n),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$events], null),cljs.core.conj,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$time,time,cljs.core.cst$kw$amount,by_n,cljs.core.cst$kw$player,id], null)):G__14181);
+return cljs.core.dissoc.cljs$core$IFn$_invoke$arity$2(G__14181__$1,cljs.core.cst$kw$action);
+
+})()], null);
 }));
-re_frame.core.reg_event_fx.cljs$core$IFn$_invoke$arity$3(cljs.core.cst$kw$app$events_SLASH_decrease_DASH_amount,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_frame.core.inject_cofx.cljs$core$IFn$_invoke$arity$1(cljs.core.cst$kw$time)], null),(function (p__14181,p__14182){
-var map__14183 = p__14181;
-var map__14183__$1 = cljs.core.__destructure_map(map__14183);
-var db = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14183__$1,cljs.core.cst$kw$db);
-var time = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14183__$1,cljs.core.cst$kw$time);
-var vec__14184 = p__14182;
-var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14184,(0),null);
-var id = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14184,(1),null);
-var by_n = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14184,(2),null);
-return new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$db,cljs.core.dissoc.cljs$core$IFn$_invoke$arity$2(cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(db,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$players,id,cljs.core.cst$kw$amount], null),cljs.core._,by_n),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$events], null),cljs.core.conj,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$time,time,cljs.core.cst$kw$amount,(- by_n),cljs.core.cst$kw$player,id], null)),cljs.core.cst$kw$action)], null);
+re_frame.core.reg_event_fx.cljs$core$IFn$_invoke$arity$3(cljs.core.cst$kw$app$events_SLASH_decrease_DASH_amount,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_frame.core.inject_cofx.cljs$core$IFn$_invoke$arity$1(cljs.core.cst$kw$time)], null),(function (p__14182,p__14183){
+var map__14184 = p__14182;
+var map__14184__$1 = cljs.core.__destructure_map(map__14184);
+var db = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14184__$1,cljs.core.cst$kw$db);
+var time = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14184__$1,cljs.core.cst$kw$time);
+var vec__14185 = p__14183;
+var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14185,(0),null);
+var id = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14185,(1),null);
+var by_n = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14185,(2),null);
+return new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$db,(function (){var G__14188 = db;
+var G__14188__$1 = (((!(((0) === by_n))))?cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(G__14188,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$players,id,cljs.core.cst$kw$amount], null),cljs.core._,by_n),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$events], null),cljs.core.conj,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$time,time,cljs.core.cst$kw$amount,(- by_n),cljs.core.cst$kw$player,id], null)):G__14188);
+return cljs.core.dissoc.cljs$core$IFn$_invoke$arity$2(G__14188__$1,cljs.core.cst$kw$action);
+
+})()], null);
 }));
-re_frame.core.reg_event_db.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$app$events_SLASH_open_DASH_page,(function (db,p__14187){
-var vec__14188 = p__14187;
-var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14188,(0),null);
-var page = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14188,(1),null);
+re_frame.core.reg_event_db.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$app$events_SLASH_open_DASH_page,(function (db,p__14189){
+var vec__14190 = p__14189;
+var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14190,(0),null);
+var page = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14190,(1),null);
 return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(db,cljs.core.cst$kw$page,page);
 }));
