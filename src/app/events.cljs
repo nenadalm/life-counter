@@ -31,6 +31,7 @@
                 (assoc player :amount (:hp settings))))
              {}
              (:players settings))
+   :change-type :by-1 ;; :by-1 | :by-n
    :events []})
 
 (defn- reset-game [db]
@@ -79,3 +80,11 @@
  ::open-page
  (fn [db [_ page]]
    (assoc db :page page)))
+
+(re-frame/reg-event-db
+ ::change-type
+ (fn [db _]
+   (update-in db [:game :change-type] (fn [type]
+                                        (if (= type :by-1)
+                                          :by-n
+                                          :by-1)))))
