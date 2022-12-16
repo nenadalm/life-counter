@@ -37,3 +37,8 @@
  ::app-info
  (fn [db _]
    (:app-info db)))
+
+(re-frame/reg-sub
+ ::change-type
+ (fn [db _]
+   (get-in db [:game :change-type])))

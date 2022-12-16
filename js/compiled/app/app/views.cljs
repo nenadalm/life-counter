@@ -50,19 +50,24 @@
 (defn life-input [{:keys [player-id]}]
   (reagent/with-let [event (reagent/atom nil)]
     (let [player @(re-frame/subscribe [::subs/player player-id])
+          change-type @(re-frame/subscribe [::subs/change-type])
           {:keys [amount color text-color]} player]
       [:div.life-input
        [:button.life-input--button
         {:style {:color text-color
                  :background-color color}
          :on-click (fn []
-                     (reset! event ::events/decrease-amount))}
+                     (if (= change-type :by-1)
+                       (re-frame/dispatch [::events/decrease-amount player-id 1])
+                       (reset! event ::events/decrease-amount)))}
         "-"]
        [:button.life-input--button
         {:style {:color text-color
                  :background-color color}
          :on-click (fn []
-                     (reset! event ::events/increase-amount))}
+                     (if (= change-type :by-1)
+                       (re-frame/dispatch [::events/increase-amount player-id 1])
+                       (reset! event ::events/increase-amount)))}
         "+"]
        [:div.life-input--amount
         {:style {:color text-color
@@ -72,16 +77,26 @@
        (when-let [e @event]
          [amount-modifier {:event e :player-id player-id :on-request-close #(reset! event nil)}])])))
 
-(defn reset-button []
+(defn menu-button []
   [:button.menu-button
    {:on-click (fn [_] (re-frame/dispatch [::events/open-page :menu]))}
    "Menu"])
+
+(defn amount-toggle-button []
+  (let [change-type @(re-frame/subscribe [::subs/change-type])]
+    [:button.amount-toggle
+     {:on-click (fn [_] (re-frame/dispatch [::events/change-type]))}
+     (case change-type
+       :by-1 "+/-1"
+       :by-n "+/-n")]))
 
 (defn counter []
   [:div.counter
    (for [id @(re-frame/subscribe [::subs/player-ids])]
      ^{:key id} [life-input {:player-id id}])
-   [reset-button]])
+   [:div.action-panel
+    [menu-button]
+    [amount-toggle-button]]])
 
 (defn menu []
   (let [settings @(re-frame/subscribe [::subs/settings])

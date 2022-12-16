@@ -133,15 +133,24 @@ if(cljs.core.truth_(reagent.debug.has_console)){
 var init14211 = (with_let14210.length === (0));
 var event = ((((init14211) || (cljs.core.not(with_let14210.hasOwnProperty((0))))))?(with_let14210[(0)] = reagent.core.atom.cljs$core$IFn$_invoke$arity$1(null)):(with_let14210[(0)]));
 var res14212 = (function (){var player = cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$subs_SLASH_player,player_id], null)));
+var change_type = cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$subs_SLASH_change_DASH_type], null)));
 var map__14213 = player;
 var map__14213__$1 = cljs.core.__destructure_map(map__14213);
 var amount = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14213__$1,cljs.core.cst$kw$amount);
 var color = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14213__$1,cljs.core.cst$kw$color);
 var text_color = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14213__$1,cljs.core.cst$kw$text_DASH_color);
 return new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$life_DASH_input,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$button$life_DASH_input_DASH__DASH_button,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$color,text_color,cljs.core.cst$kw$background_DASH_color,color], null),cljs.core.cst$kw$on_DASH_click,(function (){
+if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(change_type,cljs.core.cst$kw$by_DASH_1)){
+return re_frame.core.dispatch(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$events_SLASH_decrease_DASH_amount,player_id,(1)], null));
+} else {
 return cljs.core.reset_BANG_(event,cljs.core.cst$kw$app$events_SLASH_decrease_DASH_amount);
+}
 })], null),"-"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$button$life_DASH_input_DASH__DASH_button,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$color,text_color,cljs.core.cst$kw$background_DASH_color,color], null),cljs.core.cst$kw$on_DASH_click,(function (){
+if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(change_type,cljs.core.cst$kw$by_DASH_1)){
+return re_frame.core.dispatch(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$events_SLASH_increase_DASH_amount,player_id,(1)], null));
+} else {
 return cljs.core.reset_BANG_(event,cljs.core.cst$kw$app$events_SLASH_increase_DASH_amount);
+}
 })], null),"+"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$life_DASH_input_DASH__DASH_amount,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$color,text_color,cljs.core.cst$kw$background_DASH_color,color], null)], null),amount], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.amount_history,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$history,cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$subs_SLASH_amount_DASH_changes,player_id], null)))], null)], null),(function (){var temp__5804__auto__ = cljs.core.deref(event);
 if(cljs.core.truth_(temp__5804__auto__)){
 var e = temp__5804__auto__;
@@ -155,31 +164,52 @@ return null;
 })();
 return res14212;
 });
-app.views.reset_button = (function app$views$reset_button(){
+app.views.menu_button = (function app$views$menu_button(){
 return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$button$menu_DASH_button,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$on_DASH_click,(function (_){
 return re_frame.core.dispatch(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$events_SLASH_open_DASH_page,cljs.core.cst$kw$menu], null));
 })], null),"Menu"], null);
 });
-app.views.counter = (function app$views$counter(){
-return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$counter,(function (){var iter__4622__auto__ = (function app$views$counter_$_iter__14216(s__14217){
-return (new cljs.core.LazySeq(null,(function (){
-var s__14217__$1 = s__14217;
-while(true){
-var temp__5804__auto__ = cljs.core.seq(s__14217__$1);
-if(temp__5804__auto__){
-var s__14217__$2 = temp__5804__auto__;
-if(cljs.core.chunked_seq_QMARK_(s__14217__$2)){
-var c__4620__auto__ = cljs.core.chunk_first(s__14217__$2);
-var size__4621__auto__ = cljs.core.count(c__4620__auto__);
-var b__14219 = cljs.core.chunk_buffer(size__4621__auto__);
-if((function (){var i__14218 = (0);
-while(true){
-if((i__14218 < size__4621__auto__)){
-var id = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__4620__auto__,i__14218);
-cljs.core.chunk_append(b__14219,cljs.core.with_meta(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.life_input,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$player_DASH_id,id], null)], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,id], null)));
+app.views.amount_toggle_button = (function app$views$amount_toggle_button(){
+var change_type = cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$subs_SLASH_change_DASH_type], null)));
+return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$button$amount_DASH_toggle,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$on_DASH_click,(function (_){
+return re_frame.core.dispatch(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$events_SLASH_change_DASH_type], null));
+})], null),(function (){var G__14216 = change_type;
+var G__14216__$1 = (((G__14216 instanceof cljs.core.Keyword))?G__14216.fqn:null);
+switch (G__14216__$1) {
+case "by-1":
+return "+/-1";
 
-var G__14220 = (i__14218 + (1));
-i__14218 = G__14220;
+break;
+case "by-n":
+return "+/-n";
+
+break;
+default:
+throw (new Error(["No matching clause: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__14216__$1)].join('')));
+
+}
+})()], null);
+});
+app.views.counter = (function app$views$counter(){
+return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$counter,(function (){var iter__4622__auto__ = (function app$views$counter_$_iter__14218(s__14219){
+return (new cljs.core.LazySeq(null,(function (){
+var s__14219__$1 = s__14219;
+while(true){
+var temp__5804__auto__ = cljs.core.seq(s__14219__$1);
+if(temp__5804__auto__){
+var s__14219__$2 = temp__5804__auto__;
+if(cljs.core.chunked_seq_QMARK_(s__14219__$2)){
+var c__4620__auto__ = cljs.core.chunk_first(s__14219__$2);
+var size__4621__auto__ = cljs.core.count(c__4620__auto__);
+var b__14221 = cljs.core.chunk_buffer(size__4621__auto__);
+if((function (){var i__14220 = (0);
+while(true){
+if((i__14220 < size__4621__auto__)){
+var id = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__4620__auto__,i__14220);
+cljs.core.chunk_append(b__14221,cljs.core.with_meta(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.life_input,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$player_DASH_id,id], null)], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,id], null)));
+
+var G__14222 = (i__14220 + (1));
+i__14220 = G__14222;
 continue;
 } else {
 return true;
@@ -187,13 +217,13 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons(cljs.core.chunk(b__14219),app$views$counter_$_iter__14216(cljs.core.chunk_rest(s__14217__$2)));
+return cljs.core.chunk_cons(cljs.core.chunk(b__14221),app$views$counter_$_iter__14218(cljs.core.chunk_rest(s__14219__$2)));
 } else {
-return cljs.core.chunk_cons(cljs.core.chunk(b__14219),null);
+return cljs.core.chunk_cons(cljs.core.chunk(b__14221),null);
 }
 } else {
-var id = cljs.core.first(s__14217__$2);
-return cljs.core.cons(cljs.core.with_meta(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.life_input,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$player_DASH_id,id], null)], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,id], null)),app$views$counter_$_iter__14216(cljs.core.rest(s__14217__$2)));
+var id = cljs.core.first(s__14219__$2);
+return cljs.core.cons(cljs.core.with_meta(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.life_input,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$player_DASH_id,id], null)], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,id], null)),app$views$counter_$_iter__14218(cljs.core.rest(s__14219__$2)));
 }
 } else {
 return null;
@@ -203,7 +233,7 @@ break;
 }),null,null));
 });
 return iter__4622__auto__(cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$subs_SLASH_player_DASH_ids], null))));
-})(),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.reset_button], null)], null);
+})(),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$action_DASH_panel,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.menu_button], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.amount_toggle_button], null)], null)], null);
 });
 app.views.menu = (function app$views$menu(){
 var settings = cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$subs_SLASH_settings], null)));
@@ -219,9 +249,9 @@ return re_frame.core.dispatch(new cljs.core.PersistentVector(null, 1, 5, cljs.co
 })], null),"Reset game"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$menu_DASH__DASH_footer,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$issue_DASH_link,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$a,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$href,"https://github.com/nenadalm/life-counter/issues"], null),"Report issue / request feature"], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$app_DASH_version,["Version: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.cst$kw$version.cljs$core$IFn$_invoke$arity$1(app_info))].join('')], null)], null)], null);
 });
 app.views.app = (function app$views$app(){
-return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$_LT__GT_,(function (){var G__14221 = cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$subs_SLASH_page], null)));
-var G__14221__$1 = (((G__14221 instanceof cljs.core.Keyword))?G__14221.fqn:null);
-switch (G__14221__$1) {
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$_LT__GT_,(function (){var G__14223 = cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$app$subs_SLASH_page], null)));
+var G__14223__$1 = (((G__14223 instanceof cljs.core.Keyword))?G__14223.fqn:null);
+switch (G__14223__$1) {
 case "menu":
 return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.menu], null);
 
@@ -231,7 +261,7 @@ return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMP
 
 break;
 default:
-throw (new Error(["No matching clause: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__14221__$1)].join('')));
+throw (new Error(["No matching clause: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__14223__$1)].join('')));
 
 }
 })()], null);
