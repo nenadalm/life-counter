@@ -12,5 +12,4 @@
  :install-deps false
  :npm-deps false
  :source-map-timestamp true
- :preloads [day8.re-frame-10x.preload]
  :closure-defines {"re_frame.trace.trace_enabled_QMARK_" true}}
