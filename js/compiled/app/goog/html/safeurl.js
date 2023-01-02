@@ -136,7 +136,7 @@ goog.html.SafeUrl.prototype.getTypedStringValue = function() {
 
 /**
  * @override
- * @const
+ * @const {boolean}
  */
 goog.html.SafeUrl.prototype.implementsGoogI18nBidiDirectionalString = true;
 
@@ -144,6 +144,7 @@ goog.html.SafeUrl.prototype.implementsGoogI18nBidiDirectionalString = true;
 /**
  * Returns this URLs directionality, which is always `LTR`.
  * @override
+ * @return {!goog.i18n.bidi.Dir}
  */
 goog.html.SafeUrl.prototype.getDirection = function() {
   'use strict';
@@ -151,21 +152,21 @@ goog.html.SafeUrl.prototype.getDirection = function() {
 };
 
 
-if (goog.DEBUG) {
-  /**
-   * Returns a debug string-representation of this value.
-   *
-   * To obtain the actual string value wrapped in a SafeUrl, use
-   * `goog.html.SafeUrl.unwrap`.
-   *
-   * @see goog.html.SafeUrl#unwrap
-   * @override
-   */
-  goog.html.SafeUrl.prototype.toString = function() {
-    'use strict';
-    return 'SafeUrl{' + this.privateDoNotAccessOrElseSafeUrlWrappedValue_ + '}';
-  };
-}
+/**
+ * Returns a string-representation of this value.
+ *
+ * To obtain the actual string value wrapped in a SafeUrl, use
+ * `goog.html.SafeUrl.unwrap`.
+ *
+ * @return {string}
+ * @see goog.html.SafeUrl#unwrap
+ * @override
+ */
+goog.html.SafeUrl.prototype.toString = function() {
+  'use strict';
+  return this.privateDoNotAccessOrElseSafeUrlWrappedValue_.toString();
+};
+
 
 
 /**
@@ -287,6 +288,7 @@ goog.html.SafeUrl.fromBlob = function(blob) {
 /**
  * Revokes an object URL created for a safe URL created {@link fromBlob()}.
  * @param {!goog.html.SafeUrl} safeUrl SafeUrl wrapping a blob object.
+ * @return {void}
  */
 goog.html.SafeUrl.revokeObjectUrl = function(safeUrl) {
   'use strict';

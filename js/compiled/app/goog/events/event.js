@@ -10,7 +10,6 @@
 
 
 goog.provide('goog.events.Event');
-goog.provide('goog.events.EventLike');
 
 /**
  * goog.events.Event no longer depends on goog.Disposable. Keep requiring
@@ -19,18 +18,6 @@ goog.provide('goog.events.EventLike');
  */
 goog.require('goog.Disposable');
 goog.require('goog.events.EventId');
-
-
-/**
- * A typedef for event like objects that are dispatchable via the
- * goog.events.dispatchEvent function. strings are treated as the type for a
- * goog.events.Event. Objects are treated as an extension of a new
- * goog.events.Event with the type property of the object being used as the type
- * of the Event.
- * @typedef {string|Object|goog.events.Event|goog.events.EventId}
- */
-goog.events.EventLike;
-
 
 
 /**
@@ -94,6 +81,7 @@ goog.events.Event.prototype.hasPropagationStopped = function() {
 
 /**
  * Stops event propagation.
+ * @return {void}
  */
 goog.events.Event.prototype.stopPropagation = function() {
   'use strict';
@@ -103,6 +91,7 @@ goog.events.Event.prototype.stopPropagation = function() {
 
 /**
  * Prevents the default action, for example a link redirecting to a url.
+ * @return {void}
  */
 goog.events.Event.prototype.preventDefault = function() {
   'use strict';
@@ -115,6 +104,7 @@ goog.events.Event.prototype.preventDefault = function() {
  * `e.stopPropagation()`, but can be used as the callback argument of
  * {@link goog.events.listen} without declaring another function.
  * @param {!goog.events.Event} e An event.
+ * @return {void}
  */
 goog.events.Event.stopPropagation = function(e) {
   'use strict';
@@ -127,6 +117,7 @@ goog.events.Event.stopPropagation = function(e) {
  * `e.preventDefault()`, but can be used as the callback argument of
  * {@link goog.events.listen} without declaring another function.
  * @param {!goog.events.Event} e An event.
+ * @return {void}
  */
 goog.events.Event.preventDefault = function(e) {
   'use strict';

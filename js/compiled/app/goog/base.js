@@ -91,7 +91,14 @@ goog.global.CLOSURE_UNCOMPILED_DEFINES;
  *   var CLOSURE_DEFINES = {'goog.DEBUG': false} ;
  * </pre>
  *
- * @type {Object<string, (string|number|boolean)>|undefined}
+ * Currently the Closure Compiler will only recognize very simple definitions of
+ * this value when looking for values to apply to compiled code and ignore all
+ * other references.  Specifically, it looks the value defined at the variable
+ * declaration, as with the example above.
+ *
+ * TODO(user): Improve the recognized definitions.
+ *
+ * @type {!Object<string, (string|number|boolean)>|null|undefined}
  */
 goog.global.CLOSURE_DEFINES;
 
@@ -249,6 +256,22 @@ goog.LOCALE = goog.define('goog.LOCALE', 'en');  // default to en
 
 
 /**
+ * This method is intended to be used for bookkeeping purposes.  We would
+ * like to distinguish uses of goog.LOCALE used for code stripping purposes
+ * and uses of goog.LOCALE for other uses (such as URL parameters).
+ *
+ * This allows us to ban direct uses of goog.LOCALE and to ensure that all
+ * code has been transformed to our new localization build scheme.
+ *
+ * @return {string}
+ *
+ */
+goog.getLocale = function() {
+  return goog.LOCALE;
+};
+
+
+/**
  * @define {boolean} Whether this code is running on trusted sites.
  *
  * On untrusted sites, several native functions can be defined or overridden by
@@ -345,23 +368,6 @@ goog.constructNamespace_ = function(name, object, overwriteImplicit) {
 
 
 /**
- * Returns CSP nonce, if set for any script tag.
- * @param {?Window=} opt_window The window context used to retrieve the nonce.
- *     Defaults to global context.
- * @return {string} CSP nonce or empty string if no nonce is present.
- */
-goog.getScriptNonce = function(opt_window) {
-  if (opt_window && opt_window != goog.global) {
-    return goog.getScriptNonce_(opt_window.document);
-  }
-  if (goog.cspNonce_ === null) {
-    goog.cspNonce_ = goog.getScriptNonce_(goog.global.document);
-  }
-  return goog.cspNonce_;
-};
-
-
-/**
  * According to the CSP3 spec a nonce must be a valid base64 string.
  * @see https://www.w3.org/TR/CSP3/#grammardef-base64-value
  * @private @const
@@ -370,18 +376,14 @@ goog.NONCE_PATTERN_ = /^[\w+/_-]+[=]{0,2}$/;
 
 
 /**
- * @private {?string}
- */
-goog.cspNonce_ = null;
-
-
-/**
  * Returns CSP nonce, if set for any script tag.
- * @param {!Document} doc
+ * @param {?Window=} opt_window The window context used to retrieve the nonce.
+ *     Defaults to global context.
  * @return {string} CSP nonce or empty string if no nonce is present.
  * @private
  */
-goog.getScriptNonce_ = function(doc) {
+goog.getScriptNonce_ = function(opt_window) {
+  var doc = (opt_window || goog.global).document;
   var script = doc.querySelector && doc.querySelector('script[nonce]');
   if (script) {
     // Try to get the nonce from the IDL property first, because browsers that
@@ -1061,6 +1063,14 @@ goog.TRANSPILER = goog.define('goog.TRANSPILER', 'transpile.js');
 
 
 /**
+ * @define {string} Trusted Types policy name. If non-empty then Closure will
+ * use Trusted Types.
+ */
+goog.TRUSTED_TYPES_POLICY_NAME =
+    goog.define('goog.TRUSTED_TYPES_POLICY_NAME', 'goog');
+
+
+/**
  * @package {?boolean}
  * Visible for testing.
  */
@@ -1421,6 +1431,11 @@ goog.cloneObject = function(obj) {
   if (type == 'object' || type == 'array') {
     if (typeof obj.clone === 'function') {
       return obj.clone();
+    }
+    if (typeof Map !== 'undefined' && obj instanceof Map) {
+      return new Map(obj);
+    } else if (typeof Set !== 'undefined' && obj instanceof Set) {
+      return new Set(obj);
     }
     var clone = type == 'array' ? [] : {};
     for (var key in obj) {
@@ -2128,11 +2143,69 @@ goog.defineClass.applyProperties_ = function(target, source) {
   }
 };
 
+/**
+ * Returns the parameter.
+ * @param {string} s
+ * @return {string}
+ * @private
+ */
+goog.identity_ = function(s) {
+  return s;
+};
+
+
+/**
+ * Creates Trusted Types policy if Trusted Types are supported by the browser.
+ * The policy just blesses any string as a Trusted Type. It is not visibility
+ * restricted because anyone can also call trustedTypes.createPolicy directly.
+ * However, the allowed names should be restricted by a HTTP header and the
+ * reference to the created policy should be visibility restricted.
+ * @param {string} name
+ * @return {?TrustedTypePolicy}
+ */
+goog.createTrustedTypesPolicy = function(name) {
+  var policy = null;
+  var policyFactory = goog.global.trustedTypes;
+  if (!policyFactory || !policyFactory.createPolicy) {
+    return policy;
+  }
+  // trustedTypes.createPolicy throws if called with a name that is already
+  // registered, even in report-only mode. Until the API changes, catch the
+  // error not to break the applications functionally. In such case, the code
+  // will fall back to using regular Safe Types.
+  // TODO(koto): Remove catching once createPolicy API stops throwing.
+  try {
+    policy = policyFactory.createPolicy(name, {
+      createHTML: goog.identity_,
+      createScript: goog.identity_,
+      createScriptURL: goog.identity_
+    });
+  } catch (e) {
+    goog.logToConsole_(e.message);
+  }
+  return policy;
+};
 
 // There's a bug in the compiler where without collapse properties the
 // Closure namespace defines do not guard code correctly. To help reduce code
 // size also check for !COMPILED even though it redundant until this is fixed.
 if (!COMPILED && goog.DEPENDENCIES_ENABLED) {
+
+
+  /**
+   * Tries to detect whether the current browser is Edge, based on the user
+   * agent. This matches only pre-Chromium Edge.
+   * @see https://docs.microsoft.com/en-us/microsoft-edge/web-platform/user-agent-string
+   * @return {boolean} True if the current browser is Edge.
+   * @private
+   */
+  goog.isEdge_ = function() {
+    var userAgent = goog.global.navigator && goog.global.navigator.userAgent ?
+        goog.global.navigator.userAgent :
+        '';
+    var edgeRe = /Edge\/(\d+)(\.\d)*/i;
+    return !!userAgent.match(edgeRe);
+  };
 
 
   /**
@@ -2260,15 +2333,11 @@ if (!COMPILED && goog.DEPENDENCIES_ENABLED) {
      */
     function /** boolean */ evalCheck(/** string */ code) {
       try {
-        return !!eval(code);
+        return !!eval(goog.CLOSURE_EVAL_PREFILTER_.createScript(code));
       } catch (ignored) {
         return false;
       }
     }
-
-    var userAgent = goog.global.navigator && goog.global.navigator.userAgent ?
-        goog.global.navigator.userAgent :
-        '';
 
     // Identify ES3-only browsers by their incorrect treatment of commas.
     addNewerLanguageTranspilationCheck('es5', function() {
@@ -2277,9 +2346,7 @@ if (!COMPILED && goog.DEPENDENCIES_ENABLED) {
     addNewerLanguageTranspilationCheck('es6', function() {
       // Edge has a non-deterministic (i.e., not reproducible) bug with ES6:
       // https://github.com/Microsoft/ChakraCore/issues/1496.
-      var re = /Edge\/(\d+)(\.\d)*/i;
-      var edgeUserAgent = userAgent.match(re);
-      if (edgeUserAgent) {
+      if (goog.isEdge_()) {
         // The Reflect.construct test below is flaky on Edge. It can sometimes
         // pass or fail on 40 15.15063, so just exit early for Edge and treat
         // it as ES5. Until we're on a more up to date version just always use
@@ -2312,7 +2379,7 @@ if (!COMPILED && goog.DEPENDENCIES_ENABLED) {
     });
     // optional catch binding, unescaped unicode paragraph separator in strings
     addNewerLanguageTranspilationCheck('es_2019', function() {
-      return evalCheck('let r;try{throw 0}catch{r="\u2029"};r');
+      return evalCheck('let r;try{r="\u2029"}catch{};r');
     });
     // optional chaining, nullish coalescing
     // untested/unsupported: bigint, import meta
@@ -3066,7 +3133,7 @@ if (!COMPILED && goog.DEPENDENCIES_ENABLED) {
       }
     }
 
-    var nonce = goog.getScriptNonce();
+    var nonce = goog.getScriptNonce_();
     if (!goog.ENABLE_CHROME_APP_SAFE_SCRIPT_LOADING &&
         goog.isDocumentLoading_()) {
       var key;
@@ -3192,7 +3259,7 @@ if (!COMPILED && goog.DEPENDENCIES_ENABLED) {
     // appending?
     function write(src, contents) {
       var nonceAttr = '';
-      var nonce = goog.getScriptNonce();
+      var nonce = goog.getScriptNonce_();
       if (nonce) {
         nonceAttr = ' nonce="' + nonce + '"';
       }
@@ -3226,7 +3293,7 @@ if (!COMPILED && goog.DEPENDENCIES_ENABLED) {
 
       // If CSP nonces are used, propagate them to dynamically created scripts.
       // This is necessary to allow nonce-based CSPs without 'strict-dynamic'.
-      var nonce = goog.getScriptNonce();
+      var nonce = goog.getScriptNonce_();
       if (nonce) {
         scriptEl.nonce = nonce;
       }
@@ -3389,7 +3456,7 @@ if (!COMPILED && goog.DEPENDENCIES_ENABLED) {
       try {
         var contents = dep.contents_;
         dep.contents_ = null;
-        goog.globalEval(contents);
+        goog.globalEval(goog.CLOSURE_EVAL_PREFILTER_.createScript(contents));
         if (isEs6) {
           namespace = goog.moduleLoaderState_.moduleName;
         }
@@ -3427,7 +3494,7 @@ if (!COMPILED && goog.DEPENDENCIES_ENABLED) {
         load();
       });
 
-      var nonce = goog.getScriptNonce();
+      var nonce = goog.getScriptNonce_();
       var nonceAttr = nonce ? ' nonce="' + nonce + '"' : '';
       var script = '<script' + nonceAttr + '>' +
           goog.protectScriptTag_('goog.Dependency.callback_("' + key + '");') +
@@ -3472,17 +3539,18 @@ if (!COMPILED && goog.DEPENDENCIES_ENABLED) {
     /** @type {?} */
     var doc = goog.global.document;
 
-    var isInternetExplorer =
-        goog.inHtmlDocument_() && 'ActiveXObject' in goog.global;
+    var isInternetExplorerOrEdge = goog.inHtmlDocument_() &&
+        ('ActiveXObject' in goog.global || goog.isEdge_());
 
-    // Don't delay in any version of IE. There's bug around this that will
-    // cause out of order script execution. This means that on older IE ES6
-    // modules will load too early (while the document is still loading + the
-    // dom is not available). The other option is to load too late (when the
-    // document is complete and the onload even will never fire). This seems
-    // to be the lesser of two evils as scripts already act like the former.
+    // Don't delay in any version of IE or pre-Chromium Edge. There's a bug
+    // around this that will cause out of order script execution. This means
+    // that on older IE ES6 modules will load too early (while the document is
+    // still loading + the dom is not available). The other option is to load
+    // too late (when the document is complete and the onload even will never
+    // fire). This seems to be the lesser of two evils as scripts already act
+    // like the former.
     if (isEs6 && goog.inHtmlDocument_() && goog.isDocumentLoading_() &&
-        !isInternetExplorer) {
+        !isInternetExplorerOrEdge) {
       goog.Dependency.defer_ = true;
       // Transpiled ES6 modules still need to load like regular ES6 modules,
       // aka only after the document is interactive.
@@ -3797,57 +3865,6 @@ if (!COMPILED && goog.DEPENDENCIES_ENABLED) {
   };
 }
 
-
-/**
- * @define {string} Trusted Types policy name. If non-empty then Closure will
- * use Trusted Types.
- */
-goog.TRUSTED_TYPES_POLICY_NAME =
-    goog.define('goog.TRUSTED_TYPES_POLICY_NAME', 'goog');
-
-
-/**
- * Returns the parameter.
- * @param {string} s
- * @return {string}
- * @private
- */
-goog.identity_ = function(s) {
-  return s;
-};
-
-
-/**
- * Creates Trusted Types policy if Trusted Types are supported by the browser.
- * The policy just blesses any string as a Trusted Type. It is not visibility
- * restricted because anyone can also call trustedTypes.createPolicy directly.
- * However, the allowed names should be restricted by a HTTP header and the
- * reference to the created policy should be visibility restricted.
- * @param {string} name
- * @return {?TrustedTypePolicy}
- */
-goog.createTrustedTypesPolicy = function(name) {
-  var policy = null;
-  var policyFactory = goog.global.trustedTypes;
-  if (!policyFactory || !policyFactory.createPolicy) {
-    return policy;
-  }
-  // trustedTypes.createPolicy throws if called with a name that is already
-  // registered, even in report-only mode. Until the API changes, catch the
-  // error not to break the applications functionally. In such case, the code
-  // will fall back to using regular Safe Types.
-  // TODO(koto): Remove catching once createPolicy API stops throwing.
-  try {
-    policy = policyFactory.createPolicy(name, {
-      createHTML: goog.identity_,
-      createScript: goog.identity_,
-      createScriptURL: goog.identity_
-    });
-  } catch (e) {
-    goog.logToConsole_(e.message);
-  }
-  return policy;
-};
 
 if (!COMPILED) {
   var isChrome87 = false;

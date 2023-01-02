@@ -60,8 +60,7 @@ goog.dom.BrowserFeature.OFFSCREEN_CANVAS_2D =
  * created. False in Internet Explorer prior to version 9.
  * @const {boolean}
  */
-goog.dom.BrowserFeature.CAN_ADD_NAME_OR_TYPE_ATTRIBUTES =
-    !goog.userAgent.IE || goog.userAgent.isDocumentModeOrHigher(9);
+goog.dom.BrowserFeature.CAN_ADD_NAME_OR_TYPE_ATTRIBUTES = true;
 
 /**
  * Whether we can use element.children to access an element's Element
@@ -69,18 +68,14 @@ goog.dom.BrowserFeature.CAN_ADD_NAME_OR_TYPE_ATTRIBUTES =
  * nodes in the collection.)
  * @const {boolean}
  */
-goog.dom.BrowserFeature.CAN_USE_CHILDREN_ATTRIBUTE =
-    !goog.userAgent.GECKO && !goog.userAgent.IE ||
-    goog.userAgent.IE && goog.userAgent.isDocumentModeOrHigher(9) ||
-    goog.userAgent.GECKO && goog.userAgent.isVersionOrHigher('1.9.1');
+goog.dom.BrowserFeature.CAN_USE_CHILDREN_ATTRIBUTE = true;
 
 /**
  * Opera, Safari 3, and Internet Explorer 9 all support innerText but they
  * include text nodes in script and style tags. Not document-mode-dependent.
  * @const {boolean}
  */
-goog.dom.BrowserFeature.CAN_USE_INNER_TEXT =
-    (goog.userAgent.IE && !goog.userAgent.isVersionOrHigher('9'));
+goog.dom.BrowserFeature.CAN_USE_INNER_TEXT = false;
 
 /**
  * MSIE, Opera, and Safari>=4 support element.parentElement to access an
@@ -88,7 +83,7 @@ goog.dom.BrowserFeature.CAN_USE_INNER_TEXT =
  * @const {boolean}
  */
 goog.dom.BrowserFeature.CAN_USE_PARENT_ELEMENT_PROPERTY =
-    goog.userAgent.IE || goog.userAgent.OPERA || goog.userAgent.WEBKIT;
+    goog.userAgent.IE || goog.userAgent.WEBKIT;
 
 /**
  * Whether NoScope elements need a scoped element written before them in
@@ -97,10 +92,3 @@ goog.dom.BrowserFeature.CAN_USE_PARENT_ELEMENT_PROPERTY =
  * @const {boolean}
  */
 goog.dom.BrowserFeature.INNER_HTML_NEEDS_SCOPED_ELEMENT = goog.userAgent.IE;
-
-/**
- * Whether we use legacy IE range API.
- * @const {boolean}
- */
-goog.dom.BrowserFeature.LEGACY_IE_RANGES =
-    goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9);

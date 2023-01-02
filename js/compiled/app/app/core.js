@@ -1,4 +1,4 @@
-// Compiled by ClojureScript 1.10.866 {:static-fns true, :optimize-constants true, :optimizations :advanced}
+// Compiled by ClojureScript 1.11.60 {:static-fns true, :optimize-constants true, :optimizations :advanced}
 goog.provide('app.core');
 goog.require('cljs.core');
 goog.require('cljs.core.constants');
@@ -13,12 +13,12 @@ re_frame.core.clear_subscription_cache_BANG_();
 return reagent.dom.render.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.app], null),document.getElementById("app"));
 });
 app.core.register_worker = (function app$core$register_worker(){
-var G__14283 = navigator;
-var G__14283__$1 = (((G__14283 == null))?null:G__14283.serviceWorker);
-if((G__14283__$1 == null)){
+var G__15318 = navigator;
+var G__15318__$1 = (((G__15318 == null))?null:G__15318.serviceWorker);
+if((G__15318__$1 == null)){
 return null;
 } else {
-return G__14283__$1.register("worker.js");
+return G__15318__$1.register("worker.js");
 }
 });
 app.core.dev_setup = (function app$core$dev_setup(){

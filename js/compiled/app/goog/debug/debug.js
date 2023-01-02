@@ -14,7 +14,6 @@ goog.provide('goog.debug');
 
 goog.require('goog.array');
 goog.require('goog.debug.errorcontext');
-goog.require('goog.userAgent');
 
 
 /** @define {boolean} Whether logging should be enabled. */
@@ -50,15 +49,6 @@ goog.debug.catchErrors = function(logFunc, opt_cancel, opt_target) {
   var target = opt_target || goog.global;
   var oldErrorHandler = target.onerror;
   var retVal = !!opt_cancel;
-
-  // Chrome interprets onerror return value backwards (http://crbug.com/92062)
-  // until it was fixed in webkit revision r94061 (Webkit 535.3). This
-  // workaround still needs to be skipped in Safari after the webkit change
-  // gets pushed out in Safari.
-  // See https://bugs.webkit.org/show_bug.cgi?id=67119
-  if (goog.userAgent.WEBKIT && !goog.userAgent.isVersionOrHigher('535.3')) {
-    retVal = !retVal;
-  }
 
   /**
    * New onerror handler for this target. This onerror handler follows the spec
@@ -248,7 +238,7 @@ goog.debug.exposeArray = function(arr) {
  *    lineNumber: (?|undefined),
  *    fileName: (?|undefined),
  *    stack: (?|undefined)
- * }} Normalized error object.
+ * }} Representation of err as an Object. It will never return err.
  * @suppress {strictMissingProperties} properties not defined on err
  */
 goog.debug.normalizeErrorObject = function(err) {
@@ -333,7 +323,15 @@ goog.debug.normalizeErrorObject = function(err) {
   // Standards error object
   // Typed !Object. Should be a subtype of the return type, but it's not.
   err.stack = stack;
-  return /** @type {?} */ (err);
+
+  // Return non-standard error to allow for consistent result (eg. enumerable).
+  return {
+    'message': err.message,
+    'name': err.name,
+    'lineNumber': err.lineNumber,
+    'fileName': err.fileName,
+    'stack': err.stack
+  };
 };
 
 

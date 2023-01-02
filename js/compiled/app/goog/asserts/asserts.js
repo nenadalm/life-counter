@@ -73,13 +73,14 @@ goog.asserts.AssertionError = function(messagePattern, messageArgs) {
 goog.inherits(goog.asserts.AssertionError, goog.debug.Error);
 
 
-/** @override */
+/** @override @type {string} */
 goog.asserts.AssertionError.prototype.name = 'AssertionError';
 
 
 /**
  * The default error handler.
  * @param {!goog.asserts.AssertionError} e The exception to be handled.
+ * @return {void}
  */
 goog.asserts.DEFAULT_ERROR_HANDLER = function(e) {
   'use strict';
@@ -155,6 +156,7 @@ goog.asserts.doAssertFailure_ = function(
  * assertion failures, for example by turning all assertion failures into log
  * messages.
  * @param {function(!goog.asserts.AssertionError)} errorHandler
+ * @return {void}
  */
 goog.asserts.setErrorHandler = function(errorHandler) {
   'use strict';
@@ -234,6 +236,7 @@ goog.asserts.assertExists = function(value, opt_message, var_args) {
  *
  * @param {string=} opt_message Error message in case of failure.
  * @param {...*} var_args The items to substitute into the failure message.
+ * @return {void}
  * @throws {goog.asserts.AssertionError} Failure.
  * @closurePrimitive {asserts.fail}
  */
@@ -447,18 +450,6 @@ goog.asserts.assertFinite = function(value, opt_message, var_args) {
   }
   return /** @type {number} */ (value);
 };
-
-/**
- * Checks that no enumerable keys are present in Object.prototype. Such keys
- * would break most code that use {@code for (var ... in ...)} loops.
- */
-goog.asserts.assertObjectPrototypeIsIntact = function() {
-  'use strict';
-  for (var key in Object.prototype) {
-    goog.asserts.fail(key + ' should not be enumerable in Object.prototype.');
-  }
-};
-
 
 /**
  * Returns the type of a value. If a constructor is passed, and a suitable

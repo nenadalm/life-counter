@@ -19,11 +19,19 @@ goog.module.declareLegacyNamespace();
 
 /**
  * Base class for custom error objects.
- * @param {*=} opt_msg The message associated with the error.
+ * @param {*=} msg The message associated with the error.
+ * @param {{
+ *    message: (?|undefined),
+ *    name: (?|undefined),
+ *    lineNumber: (?|undefined),
+ *    fileName: (?|undefined),
+ *    stack: (?|undefined),
+ *    cause: (?|undefined),
+ * }=} cause The original error object to chain with.
  * @constructor
  * @extends {Error}
  */
-function DebugError(opt_msg) {
+function DebugError(msg = undefined, cause = undefined) {
   // Attempt to ensure there is a stack trace.
   if (Error.captureStackTrace) {
     Error.captureStackTrace(this, DebugError);
@@ -35,9 +43,14 @@ function DebugError(opt_msg) {
     }
   }
 
-  if (opt_msg) {
+  if (msg) {
     /** @override */
-    this.message = String(opt_msg);
+    this.message = String(msg);
+  }
+
+  if (cause !== undefined) {
+    /** @type {?} */
+    this.cause = cause;
   }
 
   /**
@@ -52,7 +65,7 @@ function DebugError(opt_msg) {
 goog.inherits(DebugError, Error);
 
 
-/** @override */
+/** @override @type {string} */
 DebugError.prototype.name = 'CustomError';
 
 

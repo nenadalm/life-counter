@@ -1,4 +1,4 @@
-// Compiled by ClojureScript 1.10.866 {:static-fns true, :optimize-constants true, :optimizations :advanced}
+// Compiled by ClojureScript 1.11.60 {:static-fns true, :optimize-constants true, :optimizations :advanced}
 goog.provide('re_frame.utils');
 goog.require('cljs.core');
 goog.require('cljs.core.constants');
@@ -9,14 +9,14 @@ goog.require('re_frame.loggers');
  *   will not be present in the new structure.
  *   The key thing is that 'm' remains identical? to itself if the path was never present
  */
-re_frame.utils.dissoc_in = (function re_frame$utils$dissoc_in(m,p__13619){
-var vec__13620 = p__13619;
-var seq__13621 = cljs.core.seq(vec__13620);
-var first__13622 = cljs.core.first(seq__13621);
-var seq__13621__$1 = cljs.core.next(seq__13621);
-var k = first__13622;
-var ks = seq__13621__$1;
-var keys = vec__13620;
+re_frame.utils.dissoc_in = (function re_frame$utils$dissoc_in(m,p__14644){
+var vec__14645 = p__14644;
+var seq__14646 = cljs.core.seq(vec__14645);
+var first__14647 = cljs.core.first(seq__14646);
+var seq__14646__$1 = cljs.core.next(seq__14646);
+var k = first__14647;
+var ks = seq__14646__$1;
+var keys = vec__14645;
 if(ks){
 var temp__5802__auto__ = cljs.core.get.cljs$core$IFn$_invoke$arity$2(m,k);
 if(cljs.core.truth_(temp__5802__auto__)){
@@ -46,23 +46,23 @@ return re_frame.loggers.console.cljs$core$IFn$_invoke$arity$variadic(cljs.core.c
  *   not a seq but a map with the arguments for f
  */
 re_frame.utils.apply_kw = (function re_frame$utils$apply_kw(var_args){
-var args__4835__auto__ = [];
-var len__4829__auto___13625 = arguments.length;
-var i__4830__auto___13626 = (0);
+var args__5775__auto__ = [];
+var len__5769__auto___14650 = arguments.length;
+var i__5770__auto___14651 = (0);
 while(true){
-if((i__4830__auto___13626 < len__4829__auto___13625)){
-args__4835__auto__.push((arguments[i__4830__auto___13626]));
+if((i__5770__auto___14651 < len__5769__auto___14650)){
+args__5775__auto__.push((arguments[i__5770__auto___14651]));
 
-var G__13627 = (i__4830__auto___13626 + (1));
-i__4830__auto___13626 = G__13627;
+var G__14652 = (i__5770__auto___14651 + (1));
+i__5770__auto___14651 = G__14652;
 continue;
 } else {
 }
 break;
 }
 
-var argseq__4836__auto__ = ((((1) < args__4835__auto__.length))?(new cljs.core.IndexedSeq(args__4835__auto__.slice((1)),(0),null)):null);
-return re_frame.utils.apply_kw.cljs$core$IFn$_invoke$arity$variadic((arguments[(0)]),argseq__4836__auto__);
+var argseq__5776__auto__ = ((((1) < args__5775__auto__.length))?(new cljs.core.IndexedSeq(args__5775__auto__.slice((1)),(0),null)):null);
+return re_frame.utils.apply_kw.cljs$core$IFn$_invoke$arity$variadic((arguments[(0)]),argseq__5776__auto__);
 });
 
 (re_frame.utils.apply_kw.cljs$core$IFn$_invoke$arity$variadic = (function (f,args){
@@ -77,10 +77,10 @@ return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(f,cljs.core.apply.cljs$core
 (re_frame.utils.apply_kw.cljs$lang$maxFixedArity = (1));
 
 /** @this {Function} */
-(re_frame.utils.apply_kw.cljs$lang$applyTo = (function (seq13623){
-var G__13624 = cljs.core.first(seq13623);
-var seq13623__$1 = cljs.core.next(seq13623);
-var self__4816__auto__ = this;
-return self__4816__auto__.cljs$core$IFn$_invoke$arity$variadic(G__13624,seq13623__$1);
+(re_frame.utils.apply_kw.cljs$lang$applyTo = (function (seq14648){
+var G__14649 = cljs.core.first(seq14648);
+var seq14648__$1 = cljs.core.next(seq14648);
+var self__5754__auto__ = this;
+return self__5754__auto__.cljs$core$IFn$_invoke$arity$variadic(G__14649,seq14648__$1);
 }));
 

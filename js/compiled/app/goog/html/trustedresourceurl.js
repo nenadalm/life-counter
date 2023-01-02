@@ -119,6 +119,7 @@ goog.html.TrustedResourceUrl.prototype.implementsGoogI18nBidiDirectionalString =
 /**
  * Returns this URLs directionality, which is always `LTR`.
  * @override
+ * @return {!goog.i18n.bidi.Dir}
  */
 goog.html.TrustedResourceUrl.prototype.getDirection = function() {
   'use strict';
@@ -157,22 +158,20 @@ goog.html.TrustedResourceUrl.prototype.cloneWithParams = function(
 };
 
 
-if (goog.DEBUG) {
-  /**
-   * Returns a debug string-representation of this value.
-   *
-   * To obtain the actual string value wrapped in a TrustedResourceUrl, use
-   * `goog.html.TrustedResourceUrl.unwrap`.
-   *
-   * @see goog.html.TrustedResourceUrl#unwrap
-   * @override
-   */
-  goog.html.TrustedResourceUrl.prototype.toString = function() {
-    'use strict';
-    return 'TrustedResourceUrl{' +
-        this.privateDoNotAccessOrElseTrustedResourceUrlWrappedValue_ + '}';
-  };
-}
+/**
+ * Returns a string-representation of this value.
+ *
+ * To obtain the actual string value wrapped in a TrustedResourceUrl, use
+ * `goog.html.TrustedResourceUrl.unwrap`.
+ *
+ * @return {string}
+ * @see goog.html.TrustedResourceUrl#unwrap
+ * @override
+ */
+goog.html.TrustedResourceUrl.prototype.toString = function() {
+  'use strict';
+  return this.privateDoNotAccessOrElseTrustedResourceUrlWrappedValue_ + '';
+};
 
 
 /**

@@ -16,7 +16,6 @@ goog.module.declareLegacyNamespace();
 const Const = goog.require('goog.string.Const');
 const SafeStyle = goog.require('goog.html.SafeStyle');
 const TypedString = goog.require('goog.string.TypedString');
-const googArray = goog.require('goog.array');
 const googObject = goog.require('goog.object');
 const {assert, fail} = goog.require('goog.asserts');
 const {contains} = goog.require('goog.string.internal');
@@ -169,13 +168,13 @@ class SafeStyleSheet {
      */
     const addArgument = argument => {
       if (Array.isArray(argument)) {
-        googArray.forEach(argument, addArgument);
+        argument.forEach(addArgument);
       } else {
         result += SafeStyleSheet.unwrap(argument);
       }
     };
 
-    googArray.forEach(arguments, addArgument);
+    Array.prototype.forEach.call(arguments, addArgument);
     return SafeStyleSheet.createSafeStyleSheetSecurityPrivateDoNotAccessOrElse(
         result);
   }
@@ -272,21 +271,19 @@ class SafeStyleSheet {
   }
 }
 
-if (goog.DEBUG) {
-  /**
-   * Returns a debug string-representation of this value.
-   *
-   * To obtain the actual string value wrapped in a SafeStyleSheet, use
-   * `SafeStyleSheet.unwrap`.
-   *
-   * @see SafeStyleSheet#unwrap
-   * @override
-   */
-  SafeStyleSheet.prototype.toString = function() {
-    return 'SafeStyleSheet{' +
-        this.privateDoNotAccessOrElseSafeStyleSheetWrappedValue_ + '}';
-  };
-}
+/**
+ * Returns a string-representation of this value.
+ *
+ * To obtain the actual string value wrapped in a SafeStyleSheet, use
+ * `SafeStyleSheet.unwrap`.
+ *
+ * @return {string}
+ * @see SafeStyleSheet#unwrap
+ * @override
+ */
+SafeStyleSheet.prototype.toString = function() {
+  return this.privateDoNotAccessOrElseSafeStyleSheetWrappedValue_.toString();
+};
 
 
 /**
