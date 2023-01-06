@@ -1,4 +1,4 @@
-{:paths ["src" "resources"]
+{:paths ["src" "test" "resources"]
  :deps {at.favre.lib/bytes {:mvn/version "1.5.0"}
         org.clojure/clojurescript {:mvn/version "1.11.60"}
         reagent/reagent {:mvn/version "1.1.1"}
