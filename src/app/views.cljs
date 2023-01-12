@@ -120,6 +120,9 @@
          :default-value (:hp settings)}]]
       [:button.action "Save & reset game"]]
      [:button.action
+      {:on-click (fn [_] (re-frame/dispatch [::events/open-page :history]))}
+      "History"]
+     [:button.action
       {:on-click (fn [_] (re-frame/dispatch [::events/reset]))}
       "Reset game"]
      [:div.menu--footer
@@ -130,8 +133,57 @@
       [:div.app-version
        (str "Version: " (:version app-info))]]]))
 
+(defn- format-time [date]
+  (str
+   (.getHours date)
+   ":"
+   (.getMinutes date)
+   ":"
+   (.getSeconds date)))
+
+(defn- format-history-cell [{:keys [time amount new-amount]}]
+  (str (when (< 0 amount) "+")
+       amount
+       " (" (format-time (js/Date. time)) ") => " new-amount))
+
+(defn- history []
+  (let [amount-changes @(re-frame/subscribe [::subs/all-amount-changes])
+        player0 @(re-frame/subscribe [::subs/player "0"])
+        player1 @(re-frame/subscribe [::subs/player "1"])]
+    [:div.history
+     [:div.history--header
+      [:button.back
+       {:on-click (fn [_] (re-frame/dispatch [::events/open-page :menu]))}
+       [i/back]]
+      [:button.close
+       {:on-click (fn [_] (re-frame/dispatch [::events/open-page :game]))}
+       [i/close]]]
+     [:table.history-table
+      (for [{:keys [time player] :as change} amount-changes]
+        ^{:key time} [:tr
+                      [:td.history-cell
+                       {:style {:color (:text-color player0)
+                                :background-color (:color player0)}}
+                       (when (= player "0")
+                         (format-history-cell change))]
+                      [:td.history-cell
+                       {:style {:color (:text-color player1)
+                                :background-color (:color player1)}}
+                       (when (= player "1")
+                         (format-history-cell change))]])
+      [:tr
+       [:td.history-cell
+        {:style {:color (:text-color player0)
+                 :background-color (:color player0)}}
+        (:initial-amount player0)]
+       [:td.history-cell
+        {:style {:color (:text-color player1)
+                 :background-color (:color player1)}}
+        (:initial-amount player1)]]]]))
+
 (defn app []
   [:<>
    (case @(re-frame/subscribe [::subs/page])
      :menu [menu]
-     :game [counter])])
+     :game [counter]
+     :history [history])])
