@@ -13,12 +13,12 @@ re_frame.core.clear_subscription_cache_BANG_();
 return reagent.dom.render.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [app.views.app], null),document.getElementById("app"));
 });
 app.core.register_worker = (function app$core$register_worker(){
-var G__15319 = navigator;
-var G__15319__$1 = (((G__15319 == null))?null:G__15319.serviceWorker);
-if((G__15319__$1 == null)){
+var G__15328 = navigator;
+var G__15328__$1 = (((G__15328 == null))?null:G__15328.serviceWorker);
+if((G__15328__$1 == null)){
 return null;
 } else {
-return G__15319__$1.register("worker.js");
+return G__15328__$1.register("worker.js");
 }
 });
 app.core.dev_setup = (function app$core$dev_setup(){

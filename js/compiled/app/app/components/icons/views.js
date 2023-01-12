@@ -6,3 +6,6 @@ goog.require('goog.string');
 app.components.icons.views.close = (function app$components$icons$views$close(){
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$span,goog.string.unescapeEntities("&#10799;")], null);
 });
+app.components.icons.views.back = (function app$components$icons$views$back(){
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$span,goog.string.unescapeEntities("&#8592;")], null);
+});

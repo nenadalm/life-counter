@@ -178,3 +178,48 @@ a {
     flex-direction: column;
     justify-content: flex-end;
 }
+
+.history {
+    color: var(--text-color);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.history button.close {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    background: none;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+    background-color: var(--background-e1);
+    color: var(--text-color);
+}
+
+.history button.back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    background: none;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+    background-color: var(--background-e1);
+    color: var(--text-color);
+}
+
+.history--header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1.5rem;
+}
+
+.history-cell {
+    padding: 0.2rem;
+}

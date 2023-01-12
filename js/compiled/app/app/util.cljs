@@ -33,7 +33,7 @@
 
              (close? prior input)
              (do
-               (vreset! pv (merge input prior))
+               (vreset! pv (merge prior input))
                result)
 
              :else

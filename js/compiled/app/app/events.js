@@ -25,7 +25,7 @@ return "unknown";
 app.events.default_settings = new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$hp,(50),cljs.core.cst$kw$players,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$id,"0",cljs.core.cst$kw$color,"#cf6666",cljs.core.cst$kw$text_DASH_color,"rgba(0, 0, 0, 0.87)"], null),new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$id,"1",cljs.core.cst$kw$color,"#3797fa",cljs.core.cst$kw$text_DASH_color,"rgba(0, 0, 0, 0.87)"], null)], null)], null);
 app.events.create_game = (function app$events$create_game(settings){
 return new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$players,cljs.core.reduce.cljs$core$IFn$_invoke$arity$3((function (res,player){
-return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(res,cljs.core.cst$kw$id.cljs$core$IFn$_invoke$arity$1(player),cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(player,cljs.core.cst$kw$amount,cljs.core.cst$kw$hp.cljs$core$IFn$_invoke$arity$1(settings)));
+return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(res,cljs.core.cst$kw$id.cljs$core$IFn$_invoke$arity$1(player),cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(player,cljs.core.cst$kw$initial_DASH_amount,cljs.core.cst$kw$hp.cljs$core$IFn$_invoke$arity$1(settings),cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$amount,cljs.core.cst$kw$hp.cljs$core$IFn$_invoke$arity$1(settings)], 0)));
 }),cljs.core.PersistentArrayMap.EMPTY,cljs.core.cst$kw$players.cljs$core$IFn$_invoke$arity$1(settings)),cljs.core.cst$kw$change_DASH_type,cljs.core.cst$kw$by_DASH_1,cljs.core.cst$kw$events,cljs.core.PersistentVector.EMPTY], null);
 });
 app.events.reset_game = (function app$events$reset_game(db){
@@ -55,8 +55,9 @@ var vec__15214 = p__15212;
 var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__15214,(0),null);
 var id = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__15214,(1),null);
 var by_n = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__15214,(2),null);
+var new_amount = (cljs.core.get_in.cljs$core$IFn$_invoke$arity$3(db,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$players,id,cljs.core.cst$kw$amount], null),(0)) + by_n);
 return new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$db,(function (){var G__15217 = db;
-var G__15217__$1 = (((!(((0) === by_n))))?cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(G__15217,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$players,id,cljs.core.cst$kw$amount], null),cljs.core._PLUS_,by_n),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$events], null),cljs.core.conj,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$time,time,cljs.core.cst$kw$amount,by_n,cljs.core.cst$kw$player,id], null)):G__15217);
+var G__15217__$1 = (((!(((0) === by_n))))?cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(cljs.core.assoc_in(G__15217,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$players,id,cljs.core.cst$kw$amount], null),new_amount),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$events], null),cljs.core.conj,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$time,time,cljs.core.cst$kw$amount,by_n,cljs.core.cst$kw$player,id,cljs.core.cst$kw$new_DASH_amount,new_amount], null)):G__15217);
 return cljs.core.dissoc.cljs$core$IFn$_invoke$arity$2(G__15217__$1,cljs.core.cst$kw$action);
 
 })()], null);
@@ -70,8 +71,9 @@ var vec__15221 = p__15219;
 var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__15221,(0),null);
 var id = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__15221,(1),null);
 var by_n = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__15221,(2),null);
+var new_amount = (cljs.core.get_in.cljs$core$IFn$_invoke$arity$3(db,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$players,id,cljs.core.cst$kw$amount], null),(0)) - by_n);
 return new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$db,(function (){var G__15224 = db;
-var G__15224__$1 = (((!(((0) === by_n))))?cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(G__15224,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$players,id,cljs.core.cst$kw$amount], null),cljs.core._,by_n),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$events], null),cljs.core.conj,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$time,time,cljs.core.cst$kw$amount,(- by_n),cljs.core.cst$kw$player,id], null)):G__15224);
+var G__15224__$1 = (((!(((0) === by_n))))?cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(cljs.core.assoc_in(G__15224,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$players,id,cljs.core.cst$kw$amount], null),new_amount),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$game,cljs.core.cst$kw$events], null),cljs.core.conj,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$time,time,cljs.core.cst$kw$amount,(- by_n),cljs.core.cst$kw$player,id,cljs.core.cst$kw$new_DASH_amount,new_amount], null)):G__15224);
 return cljs.core.dissoc.cljs$core$IFn$_invoke$arity$2(G__15224__$1,cljs.core.cst$kw$action);
 
 })()], null);

@@ -47,7 +47,7 @@ cljs.core.vreset_BANG_(pv,input);
 return result;
 } else {
 if(cljs.core.truth_((close_QMARK_.cljs$core$IFn$_invoke$arity$2 ? close_QMARK_.cljs$core$IFn$_invoke$arity$2(prior,input) : close_QMARK_.call(null,prior,input)))){
-cljs.core.vreset_BANG_(pv,(merge.cljs$core$IFn$_invoke$arity$2 ? merge.cljs$core$IFn$_invoke$arity$2(input,prior) : merge.call(null,input,prior)));
+cljs.core.vreset_BANG_(pv,(merge.cljs$core$IFn$_invoke$arity$2 ? merge.cljs$core$IFn$_invoke$arity$2(prior,input) : merge.call(null,prior,input)));
 
 return result;
 } else {

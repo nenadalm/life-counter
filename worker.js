@@ -1,4 +1,4 @@
-const urlsToCache = ["","index.html","manifest.json","img/icon.svg","js/app.js?v=a347840d98ce677f71e4e5c9a723719e057098fa","css/styles.css?v=3293edd67390410870166fb6130057c408f4aab5"];
+const urlsToCache = ["","index.html","manifest.json","img/icon.svg","js/app.js?v=dfec3d59d6cc1614149624ab324ef18f1cd0ba84","css/styles.css?v=a64179f6785feb20dffe75698bd69bdfdb744a2c"];
 
 self.addEventListener('install', event => {
     event.waitUntil(caches.open('resources').then(cache => cache.addAll(urlsToCache)));

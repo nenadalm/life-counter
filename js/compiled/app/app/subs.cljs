@@ -13,20 +13,33 @@
  (fn [db [_ id]]
    (get-in db [:game :players id])))
 
+(defn- events-close? [e1 e2]
+  (and
+   (= (:player e1) (:player e2))
+   (<=
+    (- (:time e1) (:time e2))
+    1000)))
+
+(defn- merge-events [e1 e2]
+  (update e1 :amount (partial + (:amount e2))))
+
 (re-frame/reg-sub
  ::amount-changes
  (fn [db [_ id]]
    (transduce
     (comp
+     (u/merge-close events-close? merge-events)
      (filter (fn [event] (= (:player event) id)))
-     (u/merge-close
-      (fn close? [e1 e2]
-        (<=
-         (- (:time e1) (:time e2))
-         1000))
-      (fn merge [e1 e2]
-        (update e1 :amount (partial + (:amount e2)))))
      (take 10))
+    conj
+    []
+    (rseq (get-in db [:game :events])))))
+
+(re-frame/reg-sub
+ ::all-amount-changes
+ (fn [db _]
+   (transduce
+    (u/merge-close events-close? merge-events)
     conj
     []
     (rseq (get-in db [:game :events])))))
