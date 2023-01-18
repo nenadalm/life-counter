@@ -10,6 +10,12 @@
 (defn- parse-int [s]
   (js/Math.round (js/Number s)))
 
+(defn- form-data [form-el]
+  (into {}
+        (map (fn [[k v]]
+               [(keyword k) v]))
+        (.entries (js/FormData. form-el))))
+
 (defn amount-modifier [{:keys [event player-id on-request-close]}]
   (let [on-request-close (fn []
                            (u/hide-keyboard)
@@ -29,7 +35,9 @@
       {:on-submit (fn [e]
                     (.preventDefault e)
                     (re-frame/dispatch
-                     [event player-id (parse-int (.get (js/FormData. (.-currentTarget e)) "amount"))])
+                     [event player-id (-> (form-data (.-currentTarget e))
+                                          :amount
+                                          parse-int)])
                     (on-request-close))}
       [:h1 (if (= event ::events/increase-amount)
              "+"
@@ -111,13 +119,21 @@
                     (.preventDefault e)
                     (re-frame/dispatch
                      [::events/save-settings
-                      {:hp (parse-int (.get (js/FormData. (.-currentTarget e)) "hp"))}]))}
+                      (-> (form-data (.-currentTarget e))
+                          (update :hp parse-int)
+                          (update :merge-events-threshold parse-int))]))}
       [:label
        "Starting life"
        [:input
         {:type "number"
          :name "hp"
          :default-value (:hp settings)}]]
+      [:label
+       "Merge threshold (ms)"
+       [:input
+        {:type "number"
+         :name "merge-events-threshold"
+         :default-value (:merge-events-threshold settings)}]]
       [:button.action "Save & reset game"]]
      [:button.action
       {:on-click (fn [_] (re-frame/dispatch [::events/open-page :history]))}
