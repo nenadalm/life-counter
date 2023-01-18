@@ -21,7 +21,9 @@
     1000)))
 
 (defn- merge-events [e1 e2]
-  (update e1 :amount (partial + (:amount e2))))
+  (-> e1
+      (update :amount (partial + (:amount e2)))
+      (assoc :time (:time e2))))
 
 (re-frame/reg-sub
  ::amount-changes
