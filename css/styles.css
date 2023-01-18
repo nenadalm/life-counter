@@ -133,6 +133,11 @@ a {
     color: var(--text-color);
     border: none;
 }
+
+.menu-button:active, .amount-toggle:active {
+    opacity: 0.7;
+}
+
 .reset-button:focus-visible { outline: none; }
 .reset-button:active { opacity: 0.7; }
 

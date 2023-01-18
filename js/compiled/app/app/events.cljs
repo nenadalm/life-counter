@@ -19,6 +19,7 @@
 
 (def ^:private default-settings
   {:hp 50
+   :merge-events-threshold 1000
    :players [{:id "0" :color "#cf6666" :text-color "rgba(0, 0, 0, 0.87)"}
              {:id "1" :color "#3797fa" :text-color "rgba(0, 0, 0, 0.87)"}]})
 

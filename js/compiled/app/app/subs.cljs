@@ -13,22 +13,24 @@
  (fn [db [_ id]]
    (get-in db [:game :players id])))
 
-(defn- events-close? [e1 e2]
+(defn- events-close? [threshold e1 e2]
   (and
    (= (:player e1) (:player e2))
    (<=
     (- (:time e1) (:time e2))
-    1000)))
+    threshold)))
 
 (defn- merge-events [e1 e2]
-  (update e1 :amount (partial + (:amount e2))))
+  (-> e1
+      (update :amount (partial + (:amount e2)))
+      (assoc :time (:time e2))))
 
 (re-frame/reg-sub
  ::amount-changes
  (fn [db [_ id]]
    (transduce
     (comp
-     (u/merge-close events-close? merge-events)
+     (u/merge-close (partial events-close? (get-in db [:settings :merge-events-threshold])) merge-events)
      (filter (fn [event] (= (:player event) id)))
      (take 10))
     conj

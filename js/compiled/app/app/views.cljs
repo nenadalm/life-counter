@@ -10,6 +10,12 @@
 (defn- parse-int [s]
   (js/Math.round (js/Number s)))
 
+(defn- form-data [form-el]
+  (into {}
+        (map (fn [[k v]]
+               [(keyword k) v]))
+        (.entries (js/FormData. form-el))))
+
 (defn amount-modifier [{:keys [event player-id on-request-close]}]
   (let [on-request-close (fn []
                            (u/hide-keyboard)
@@ -29,7 +35,9 @@
       {:on-submit (fn [e]
                     (.preventDefault e)
                     (re-frame/dispatch
-                     [event player-id (parse-int (.get (js/FormData. (.-currentTarget e)) "amount"))])
+                     [event player-id (-> (form-data (.-currentTarget e))
+                                          :amount
+                                          parse-int)])
                     (on-request-close))}
       [:h1 (if (= event ::events/increase-amount)
              "+"
@@ -111,13 +119,21 @@
                     (.preventDefault e)
                     (re-frame/dispatch
                      [::events/save-settings
-                      {:hp (parse-int (.get (js/FormData. (.-currentTarget e)) "hp"))}]))}
+                      (-> (form-data (.-currentTarget e))
+                          (update :hp parse-int)
+                          (update :merge-events-threshold parse-int))]))}
       [:label
        "Starting life"
        [:input
         {:type "number"
          :name "hp"
          :default-value (:hp settings)}]]
+      [:label
+       "Merge threshold (ms)"
+       [:input
+        {:type "number"
+         :name "merge-events-threshold"
+         :default-value (:merge-events-threshold settings)}]]
       [:button.action "Save & reset game"]]
      [:button.action
       {:on-click (fn [_] (re-frame/dispatch [::events/open-page :history]))}
@@ -135,11 +151,11 @@
 
 (defn- format-time [date]
   (str
-   (.getHours date)
+   (.padStart (str (.getHours date)) 2 "0")
    ":"
-   (.getMinutes date)
+   (.padStart (str (.getMinutes date)) 2 "0")
    ":"
-   (.getSeconds date)))
+   (.padStart (str (.getSeconds date)) 2 "0")))
 
 (defn- format-history-cell [{:keys [time amount new-amount]}]
   (str (when (< 0 amount) "+")
@@ -159,27 +175,28 @@
        {:on-click (fn [_] (re-frame/dispatch [::events/open-page :game]))}
        [i/close]]]
      [:table.history-table
-      (for [{:keys [time player] :as change} amount-changes]
-        ^{:key time} [:tr
-                      [:td.history-cell
-                       {:style {:color (:text-color player0)
-                                :background-color (:color player0)}}
-                       (when (= player "0")
-                         (format-history-cell change))]
-                      [:td.history-cell
-                       {:style {:color (:text-color player1)
-                                :background-color (:color player1)}}
-                       (when (= player "1")
-                         (format-history-cell change))]])
-      [:tr
-       [:td.history-cell
-        {:style {:color (:text-color player0)
-                 :background-color (:color player0)}}
-        (:initial-amount player0)]
-       [:td.history-cell
-        {:style {:color (:text-color player1)
-                 :background-color (:color player1)}}
-        (:initial-amount player1)]]]]))
+      [:tbody
+       (for [{:keys [time player] :as change} amount-changes]
+         ^{:key time} [:tr
+                       [:td.history-cell
+                        {:style {:color (:text-color player0)
+                                 :background-color (:color player0)}}
+                        (when (= player "0")
+                          (format-history-cell change))]
+                       [:td.history-cell
+                        {:style {:color (:text-color player1)
+                                 :background-color (:color player1)}}
+                        (when (= player "1")
+                          (format-history-cell change))]])
+       [:tr
+        [:td.history-cell
+         {:style {:color (:text-color player0)
+                  :background-color (:color player0)}}
+         (:initial-amount player0)]
+        [:td.history-cell
+         {:style {:color (:text-color player1)
+                  :background-color (:color player1)}}
+         (:initial-amount player1)]]]]]))
 
 (defn app []
   [:<>
