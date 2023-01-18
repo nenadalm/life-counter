@@ -175,27 +175,28 @@
        {:on-click (fn [_] (re-frame/dispatch [::events/open-page :game]))}
        [i/close]]]
      [:table.history-table
-      (for [{:keys [time player] :as change} amount-changes]
-        ^{:key time} [:tr
-                      [:td.history-cell
-                       {:style {:color (:text-color player0)
-                                :background-color (:color player0)}}
-                       (when (= player "0")
-                         (format-history-cell change))]
-                      [:td.history-cell
-                       {:style {:color (:text-color player1)
-                                :background-color (:color player1)}}
-                       (when (= player "1")
-                         (format-history-cell change))]])
-      [:tr
-       [:td.history-cell
-        {:style {:color (:text-color player0)
-                 :background-color (:color player0)}}
-        (:initial-amount player0)]
-       [:td.history-cell
-        {:style {:color (:text-color player1)
-                 :background-color (:color player1)}}
-        (:initial-amount player1)]]]]))
+      [:tbody
+       (for [{:keys [time player] :as change} amount-changes]
+         ^{:key time} [:tr
+                       [:td.history-cell
+                        {:style {:color (:text-color player0)
+                                 :background-color (:color player0)}}
+                        (when (= player "0")
+                          (format-history-cell change))]
+                       [:td.history-cell
+                        {:style {:color (:text-color player1)
+                                 :background-color (:color player1)}}
+                        (when (= player "1")
+                          (format-history-cell change))]])
+       [:tr
+        [:td.history-cell
+         {:style {:color (:text-color player0)
+                  :background-color (:color player0)}}
+         (:initial-amount player0)]
+        [:td.history-cell
+         {:style {:color (:text-color player1)
+                  :background-color (:color player1)}}
+         (:initial-amount player1)]]]]]))
 
 (defn app []
   [:<>
