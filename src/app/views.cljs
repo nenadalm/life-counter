@@ -135,11 +135,11 @@
 
 (defn- format-time [date]
   (str
-   (.getHours date)
+   (.padStart (str (.getHours date)) 2 "0")
    ":"
-   (.getMinutes date)
+   (.padStart (str (.getMinutes date)) 2 "0")
    ":"
-   (.getSeconds date)))
+   (.padStart (str (.getSeconds date)) 2 "0")))
 
 (defn- format-history-cell [{:keys [time amount new-amount]}]
   (str (when (< 0 amount) "+")
