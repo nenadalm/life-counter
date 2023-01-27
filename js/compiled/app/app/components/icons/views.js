@@ -9,3 +9,6 @@ return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMP
 app.components.icons.views.back = (function app$components$icons$views$back(){
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$span,goog.string.unescapeEntities("&#8592;")], null);
 });
+app.components.icons.views.crown = (function app$components$icons$views$crown(){
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$span,"\uD83D\uDC51"], null);
+});
