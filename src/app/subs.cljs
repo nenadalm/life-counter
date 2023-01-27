@@ -8,10 +8,18 @@
  (fn [db _]
    (keys (get-in db [:game :players]))))
 
+(defn- opponent [player-id]
+  (case player-id
+    "0" "1"
+    "1" "0"))
+
 (re-frame/reg-sub
  ::player
  (fn [db [_ id]]
-   (get-in db [:game :players id])))
+   (let [players (get-in db [:game :players])
+         player (get players id)
+         opponent-player (get players (opponent id))]
+     (assoc player :winner (<= (:amount opponent-player) 0)))))
 
 (defn- events-close? [threshold e1 e2]
   (and

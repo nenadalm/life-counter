@@ -7,3 +7,6 @@
 
 (defn back []
   [:span (gstring/unescapeEntities "&#8592;")])
+
+(defn crown []
+  [:span "👑"])
