@@ -55,37 +55,38 @@
    (for [{:keys [time amount]} history]
      ^{:key time} [:div (str (when (< 0 amount) "+")) amount])])
 
-(defn life-input [{:keys [player-id]}]
-  (reagent/with-let [event (reagent/atom nil)]
-    (let [player @(re-frame/subscribe [::subs/player player-id])
-          change-type @(re-frame/subscribe [::subs/change-type])
-          {:keys [amount color text-color winner]} player]
-      [:div.life-input
-       [:button.life-input--button
-        {:style {:color text-color
-                 :background-color color}
-         :on-click (fn []
-                     (if (= change-type :by-1)
-                       (re-frame/dispatch [::events/decrease-amount player-id 1])
-                       (reset! event ::events/decrease-amount)))}
-        "-"]
-       [:button.life-input--button
-        {:style {:color text-color
-                 :background-color color}
-         :on-click (fn []
-                     (if (= change-type :by-1)
-                       (re-frame/dispatch [::events/increase-amount player-id 1])
-                       (reset! event ::events/increase-amount)))}
-        "+"]
-       [:div.life-input--amount
-        {:style {:color text-color
-                 :background-color color}}
-        amount]
-       (when winner
-         [:div.winner [i/crown]])
-       [amount-history {:history @(re-frame/subscribe [::subs/amount-changes player-id])}]
-       (when-let [e @event]
-         [amount-modifier {:event e :player-id player-id :on-request-close #(reset! event nil)}])])))
+(defn life-input [_]
+  (let [event (reagent/atom nil)]
+    (fn [{:keys [player-id]}]
+      (let [player @(re-frame/subscribe [::subs/player player-id])
+            change-type @(re-frame/subscribe [::subs/change-type])
+            {:keys [amount color text-color winner]} player]
+        [:div.life-input
+         [:button.life-input--button
+          {:style {:color text-color
+                   :background-color color}
+           :on-click (fn []
+                       (if (= change-type :by-1)
+                         (re-frame/dispatch [::events/decrease-amount player-id 1])
+                         (reset! event ::events/decrease-amount)))}
+          "-"]
+         [:button.life-input--button
+          {:style {:color text-color
+                   :background-color color}
+           :on-click (fn []
+                       (if (= change-type :by-1)
+                         (re-frame/dispatch [::events/increase-amount player-id 1])
+                         (reset! event ::events/increase-amount)))}
+          "+"]
+         [:div.life-input--amount
+          {:style {:color text-color
+                   :background-color color}}
+          amount]
+         (when winner
+           [:div.winner [i/crown]])
+         [amount-history {:history @(re-frame/subscribe [::subs/amount-changes player-id])}]
+         (when-let [e @event]
+           [amount-modifier {:event e :player-id player-id :on-request-close #(reset! event nil)}])]))))
 
 (defn menu-button []
   [:button.menu-button
