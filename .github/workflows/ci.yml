@@ -4,7 +4,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.2.0
+      - uses: actions/checkout@v3.3.0
       - uses: actions/setup-java@v3.9.0
         with:
           distribution: 'adopt'
@@ -12,7 +12,7 @@ jobs:
       - uses: DeLaGuardo/setup-clojure@master
         with:
           cli: '1.11.1.1208'
-      - uses: actions/cache@v3.2.2
+      - uses: actions/cache@v3.2.4
         with:
           path: '~/.m2'
           key: "${{ runner.os }}-maven-${{ hashFiles('deps.edn') }}"
@@ -27,7 +27,7 @@ jobs:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3.2.0
+      - uses: actions/checkout@v3.3.0
       - uses: actions/setup-java@v3.9.0
         with:
           distribution: 'adopt'
@@ -35,7 +35,7 @@ jobs:
       - uses: DeLaGuardo/setup-clojure@master
         with:
           cli: '1.11.1.1208'
-      - uses: actions/cache@v3.2.2
+      - uses: actions/cache@v3.2.4
         with:
           path: '~/.m2'
           key: "${{ runner.os }}-maven-${{ hashFiles('deps.edn') }}"
