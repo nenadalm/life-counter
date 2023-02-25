@@ -110,47 +110,80 @@
     [amount-toggle-button]]])
 
 (defn menu []
-  (let [settings @(re-frame/subscribe [::subs/settings])
-        app-info @(re-frame/subscribe [::subs/app-info])]
-    [:div.menu
-     [:div.menu--header
-      [:button.close
-       {:on-click (fn [_] (re-frame/dispatch [::events/open-page :game]))}
-       [i/close]]]
-     [:form
-      {:on-submit (fn [e]
-                    (.preventDefault e)
-                    (re-frame/dispatch
-                     [::events/save-settings
-                      (-> (form-data (.-currentTarget e))
-                          (update :hp parse-int)
-                          (update :merge-events-threshold parse-int))]))}
-      [:label
-       "Starting life"
-       [:input
-        {:type "number"
-         :name "hp"
-         :default-value (:hp settings)}]]
-      [:label
-       "Merge threshold (ms)"
-       [:input
-        {:type "number"
-         :name "merge-events-threshold"
-         :default-value (:merge-events-threshold settings)}]]
-      [:button.action "Save & reset game"]]
-     [:button.action
-      {:on-click (fn [_] (re-frame/dispatch [::events/open-page :history]))}
-      "History"]
-     [:button.action
-      {:on-click (fn [_] (re-frame/dispatch [::events/reset]))}
-      "Reset game"]
-     [:div.menu--footer
-      [:div.issue-link
-       [:a
-        {:href "https://github.com/nenadalm/life-counter/issues"}
-        "Report issue / request feature"]]
-      [:div.app-version
-       (str "Version: " (:version app-info))]]]))
+  (let [current-type (reagent/atom nil)]
+    (fn []
+      (let [settings @(re-frame/subscribe [::subs/settings])
+            app-info @(re-frame/subscribe [::subs/app-info])
+            type (:type settings)]
+        [:div.menu
+         [:div.menu--header
+          [:button.close
+           {:on-click (fn [_] (re-frame/dispatch [::events/open-page :game]))}
+           [i/close]]]
+         [:form
+          {:on-submit (fn [e]
+                        (.preventDefault e)
+                        (re-frame/dispatch
+                         [::events/save-settings
+                          (-> (form-data (.-currentTarget e))
+                              (update :type keyword)
+                              (update :hp parse-int)
+                              (update :end-hp parse-int)
+                              (update :merge-events-threshold parse-int))]))}
+          [:label
+           "Type"
+           [:select
+            {:name "type"
+             :default-value (name type)
+             :on-change (fn [e]
+                          (reset! current-type (keyword ^js/String (.-currentTarget.value e))))}
+            [:option
+             {:value "up"}
+             "Count up"]
+            [:option
+             {:value "down"}
+             "Count down"]]]
+          (case (or @current-type type)
+            :down [:label
+                   "Starting life"
+                   [:input
+                    {:type "number"
+                     :name "hp"
+                     :default-value (:hp settings)}]
+                   [:input
+                    {:type "hidden"
+                     :name "end-hp"
+                     :value "0"}]]
+            :up [:label
+                 "Winning score"
+                 [:input
+                  {:type "number"
+                   :name "end-hp"
+                   :default-value (:end-hp settings)}]
+                 [:input
+                  {:type "hidden"
+                   :name "hp"
+                   :value "0"}]])
+          [:label
+           "Merge threshold (ms)"
+           [:input
+            {:type "number"
+             :name "merge-events-threshold"
+             :default-value (:merge-events-threshold settings)}]]
+          [:button.action "Save & reset game"]]
+         [:button.action
+          {:on-click (fn [_] (re-frame/dispatch [::events/open-page :history]))}
+          "History"]
+         [:button.action
+          {:on-click (fn [_] (re-frame/dispatch [::events/reset]))}
+          "Reset game"]
+         [:div.menu--footer
+          [:div.issue-link
+           [:a
+            {:href "https://github.com/nenadalm/life-counter/issues"}
+            "Report issue / request feature"]]
+          [:div.app-version
+           (str "Version: " (:version app-info))]]]))))
 
 (defn- format-time [date]
   (str

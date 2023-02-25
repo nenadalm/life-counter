@@ -18,8 +18,11 @@
  (fn [db [_ id]]
    (let [players (get-in db [:game :players])
          player (get players id)
-         opponent-player (get players (opponent id))]
-     (assoc player :winner (<= (:amount opponent-player) 0)))))
+         opponent-player (get players (opponent id))
+         {:keys [end-hp type]} (:settings db)]
+     (assoc player :winner (case type
+                             :down (<= (:amount opponent-player) end-hp)
+                             :up (<= end-hp (:amount player)))))))
 
 (defn- events-close? [threshold e1 e2]
   (and
