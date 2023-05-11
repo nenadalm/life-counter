@@ -4,8 +4,7 @@
    [re-frame.core :as re-frame]
    [app.subs :as subs]
    [app.events :as events]
-   [app.components.icons.views :as i]
-   [app.util :as u]))
+   [app.components.icons.views :as i]))
 
 (defn- parse-int [s]
   (js/Math.round (js/Number s)))
@@ -16,39 +15,47 @@
                [(keyword k) v]))
         (.entries (js/FormData. form-el))))
 
-(defn amount-modifier [{:keys [event player-id on-request-close]}]
-  (let [on-request-close (fn []
-                           (u/hide-keyboard)
-                           (on-request-close))]
-    [:dialog.dialog
-     {:ref (fn [el]
-             (when (and el (not (.-open el)))
-               (.addEventListener el "cancel" (fn [] (on-request-close)))
-               (.showModal el)))}
-     [:div.dialog--header
-      [:button.close
-       {:type "button"
-        :on-click (fn []
-                    (on-request-close))}
-       [i/close]]]
-     [:form
-      {:on-submit (fn [e]
-                    (.preventDefault e)
-                    (re-frame/dispatch
-                     [event player-id (-> (form-data (.-currentTarget e))
-                                          :amount
-                                          parse-int)])
-                    (on-request-close))}
-      [:h1 (if (= event ::events/increase-amount)
-             "+"
-             "-")]
-      [:input
-       {:type "number"
-        :name "amount"
-        :ref (fn [el] (when el (js/setTimeout #(.focus el) 0)))}]
-      [:div.dialog--actions
-       [:button.ok
-        "Update"]]]]))
+(defn amount-modifier [_]
+  (let [form-el (atom nil)
+        modal-el (atom nil)
+        dialog-ref (fn [el] (reset! modal-el el))
+        form-ref (fn [el] (reset! form-el el))]
+    (fn [{:keys [event player-id on-request-close]}]
+      (let [on-request-close (fn []
+                               (on-request-close)
+                               (when-let [el @form-el] (.reset el)))]
+        (when-let [modal @modal-el]
+          (let [open (.-open modal)]
+            (if (some? event)
+              (and (not open) (.showModal modal))
+              (and open (.close modal)))))
+        [:dialog.dialog
+         {:ref dialog-ref}
+         [:div.dialog--header
+          [:button.close
+           {:type "button"
+            :on-click (fn []
+                        (on-request-close))}
+           [i/close]]]
+         [:form
+          {:ref form-ref
+           :on-submit (fn [e]
+                        (.preventDefault e)
+                        (re-frame/dispatch
+                         [event player-id (-> (form-data (.-currentTarget e))
+                                              :amount
+                                              parse-int)])
+                        (on-request-close))}
+          [:h1 (if (= event ::events/increase-amount)
+                 "+"
+                 "-")]
+          [:input
+           {:type "number"
+            :name "amount"
+            :ref (fn [el] (when el (.focus el)))}]
+          [:div.dialog--actions
+           [:button.ok
+            "Update"]]]]))))
 
 (defn amount-history [{:keys [history]}]
   [:div.life-input--amount-history
@@ -56,7 +63,8 @@
      ^{:key time} [:div (str (when (< 0 amount) "+")) amount])])
 
 (defn life-input [_]
-  (let [event (reagent/atom nil)]
+  (let [event (reagent/atom nil)
+        on-request-close (fn [] (reset! event nil))]
     (fn [{:keys [player-id]}]
       (let [player @(re-frame/subscribe [::subs/player player-id])
             change-type @(re-frame/subscribe [::subs/change-type])
@@ -85,8 +93,9 @@
          (when winner
            [:div.winner [i/crown]])
          [amount-history {:history @(re-frame/subscribe [::subs/amount-changes player-id])}]
-         (when-let [e @event]
-           [amount-modifier {:event e :player-id player-id :on-request-close #(reset! event nil)}])]))))
+         [amount-modifier {:event @event
+                           :player-id player-id
+                           :on-request-close on-request-close}]]))))
 
 (defn menu-button []
   [:button.menu-button

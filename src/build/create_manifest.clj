@@ -19,7 +19,7 @@
              :purpose "maskable"}]
     :background_color "#121212"
     :theme_color "#121212"
-    :display "fullscreen"
+    :display "standalone"
     :start_url "index.html"}))
 
 (defn -main [& _]
