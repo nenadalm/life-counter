@@ -876,4 +876,4 @@ function Jr(){return new Y(null,2,5,Z,[am,function(){var a=D(op.g(new Y(null,1,5
 function Lr(){var a=navigator;a=null==a?null:a.serviceWorker;null==a||a.register("worker.js");Kr();a=new Y(null,1,5,Z,[Xk],null);kp(a);yp(zp,a);a=H(D(lp));for(var b=null,c=0,d=0;;)if(d<c){var e=b.K(null,d);U(e,0,null);e=U(e,1,null);On(e);d+=1}else if(a=H(a))Gd(a)?(c=hc(a),a=ic(a),b=c,c=P(c)):(b=J(a),U(b,0,null),b=U(b,1,null),On(b),a=M(a),b=null,c=0),d=0;else break;w(Ge(D(lp)))&&Xo.l(Yk,T(["re-frame: The subscription cache isn't empty after being cleared"]));a=new Y(null,1,5,Z,[Jr],null);b=document.getElementById("app");
 return Wp(a,b)}var Mr=["app","core","init"],Nr=aa;Mr[0]in Nr||"undefined"==typeof Nr.execScript||Nr.execScript("var "+Mr[0]);for(var Or;Mr.length&&(Or=Mr.shift());)Mr.length||void 0===Lr?Nr=Nr[Or]&&Nr[Or]!==Object.prototype[Or]?Nr[Or]:Nr[Or]={}:Nr[Or]=Lr;
 }).call(this);
-//# sourceMappingURL=app.js.map
+//# sourceMappingURL=app.2889DBE606416740956FE7A32C8349D4.js.map
