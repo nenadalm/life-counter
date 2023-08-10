@@ -19,10 +19,12 @@
    (let [players (get-in db [:game :players])
          player (get players id)
          opponent-player (get players (opponent id))
-         {:keys [end-hp type]} (:settings db)]
+         {:keys [profile]} (:settings db)
+         {:keys [end-hp type]} (get-in db [:profiles profile])]
      (assoc player :winner (case type
                              :down (<= (:amount opponent-player) end-hp)
-                             :up (<= end-hp (:amount player)))))))
+                             :up (<= end-hp (:amount player))
+                             false)))))
 
 (defn- events-close? [threshold e1 e2]
   (and
@@ -60,12 +62,27 @@
 (re-frame/reg-sub
  ::page
  (fn [db _]
-   (:page db)))
+   (let [page (:page db)]
+     (if (= :game page)
+       (if (get-in db [:profiles (get-in db [:settings :profile])])
+         page
+         :menu)
+       page))))
 
 (re-frame/reg-sub
  ::settings
  (fn [db _]
    (:settings db)))
+
+(re-frame/reg-sub
+ ::profiles
+ (fn [db _]
+   (sort-by :profile u/compare-ci (vals (:profiles db)))))
+
+(re-frame/reg-sub
+ ::profile
+ (fn [db [_ profile]]
+   (get-in db [:profiles profile] {})))
 
 (re-frame/reg-sub
  ::app-info

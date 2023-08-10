@@ -1,4 +1,19 @@
-(ns app.util)
+(ns app.util
+  (:require [clojure.string :as str]))
+
+(defn index-by
+  [f coll]
+  (persistent!
+   (reduce
+    (fn [ret x]
+      (let [k (f x)]
+        (assoc! ret k x)))
+    (transient {}) coll)))
+
+(defn compare-ci [x y]
+  (compare
+   (str/lower-case x)
+   (str/lower-case y)))
 
 (defn merge-close
   "Merges close inputs next to each other

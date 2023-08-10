@@ -114,65 +114,85 @@
   [:div.counter
    (for [id @(re-frame/subscribe [::subs/player-ids])]
      ^{:key id} [life-input {:player-id id}])
+   [:div.title-panel
+    (:profile @(re-frame/subscribe [::subs/settings]))]
    [:div.action-panel
     [menu-button]
     [amount-toggle-button]]])
 
+(defn- submit-menu [e]
+  (.preventDefault e)
+  (re-frame/dispatch
+   [::events/save-settings
+    (-> (form-data (.-currentTarget e))
+        (update :merge-events-threshold parse-int))]))
+
 (defn menu []
-  (let [current-type (reagent/atom nil)]
+  (let [selected-profile (reagent/atom nil)]
     (fn []
       (let [settings @(re-frame/subscribe [::subs/settings])
             app-info @(re-frame/subscribe [::subs/app-info])
-            type (:type settings)]
+            profiles @(re-frame/subscribe [::subs/profiles])
+            profile @(re-frame/subscribe [::subs/profile (or @selected-profile (:profile settings))])
+            settings-profile @(re-frame/subscribe [::subs/profile (:profile settings)])
+            is-valid-profile (boolean (seq settings-profile))]
         [:div.menu
          [:div.menu--header
           [:button.close
-           {:on-click (fn [_] (re-frame/dispatch [::events/open-page :game]))}
+           {:on-click (fn [_] (re-frame/dispatch [::events/open-page :game]))
+            :disabled (not is-valid-profile)}
            [i/close]]]
+         [:button.action
+          {:on-click (fn [_] (re-frame/dispatch [::events/open-page :history]))}
+          "History"]
+         [:button.action
+          {:on-click (fn [_] (re-frame/dispatch [::events/reset]))
+           :disabled (not is-valid-profile)}
+          "Reset game"]
+         [:hr]
          [:form
-          {:on-submit (fn [e]
-                        (.preventDefault e)
-                        (re-frame/dispatch
-                         [::events/save-settings
-                          (-> (form-data (.-currentTarget e))
-                              (update :type keyword)
-                              (update :hp parse-int)
-                              (update :end-hp parse-int)
-                              (update :merge-events-threshold parse-int))]))}
-          [:label
-           "Type"
-           [:select
-            {:name "type"
-             :default-value (name type)
-             :on-change (fn [e]
-                          (reset! current-type (keyword ^js/String (.-currentTarget.value e))))}
-            [:option
-             {:value "up"}
-             "Count up"]
-            [:option
-             {:value "down"}
-             "Count down"]]]
-          (case (or @current-type type)
-            :down [:label
-                   "Starting life"
-                   [:input
-                    {:type "number"
-                     :name "hp"
-                     :default-value (:hp settings)}]
-                   [:input
-                    {:type "hidden"
-                     :name "end-hp"
-                     :value "0"}]]
-            :up [:label
-                 "Winning score"
-                 [:input
-                  {:type "number"
-                   :name "end-hp"
-                   :default-value (:end-hp settings)}]
-                 [:input
-                  {:type "hidden"
-                   :name "hp"
-                   :value "0"}]])
+          {:on-submit submit-menu}
+          [:fieldset
+           [:label
+            "Profile"
+            [:select
+             {:name "profile"
+              :required true
+              :default-value (:profile profile "")
+              :on-change (fn [^js e]
+                           (reset! selected-profile (.-currentTarget.value e)))}
+             (when (empty? profile)
+               [:option {:value ""} ""])
+             (for [{:keys [profile]} profiles]
+               ^{:key profile} [:option {:value profile} profile])]]
+           (case (:type profile)
+             :up [:<>
+                  [:label
+                   "Type"
+                   [:input {:disabled true
+                            :value "Count up"}]]
+                  [:label
+                   "Winning score"
+                   [:input {:disabled true
+                            :value (:end-hp profile)}]]]
+             :down [:<>
+                    [:label
+                     "Type"
+                     [:input {:disabled true
+                              :value "Count down"}]]
+                    [:label
+                     "Starting life"
+                     [:input {:disabled true
+                              :value (:hp profile)}]]]
+             nil)
+           [:button.action
+            {:type "button"
+             :on-click (fn [_] (re-frame/dispatch [::events/open-page :new-profile]))}
+            "New"]
+           [:button.action
+            {:type "button"
+             :on-click (fn [_] (re-frame/dispatch [::events/delete-profile (:profile profile)]))}
+            "Delete"]]
           [:label
            "Merge threshold (ms)"
            [:input
@@ -180,12 +200,6 @@
              :name "merge-events-threshold"
              :default-value (:merge-events-threshold settings)}]]
           [:button.action "Save & reset game"]]
-         [:button.action
-          {:on-click (fn [_] (re-frame/dispatch [::events/open-page :history]))}
-          "History"]
-         [:button.action
-          {:on-click (fn [_] (re-frame/dispatch [::events/reset]))}
-          "Reset game"]
          [:div.menu--footer
           [:div.issue-link
            [:a
@@ -193,6 +207,67 @@
             "Report issue / request feature"]]
           [:div.app-version
            (str "Version: " (:version app-info))]]]))))
+
+(defn- submit-new-profile [e]
+  (.preventDefault e)
+  (re-frame/dispatch
+   [::events/save-profile
+    (-> (form-data (.-currentTarget e))
+        (update :type keyword)
+        (update :hp parse-int)
+        (update :end-hp parse-int))]))
+
+(defn- new-profile []
+  (let [current-type (reagent/atom :down)]
+    (fn []
+      [:div.menu
+       [:div.menu--header
+        [:button.close
+         {:on-click (fn [_] (re-frame/dispatch [::events/open-page :menu]))}
+         [i/close]]]
+       [:form
+        {:on-submit submit-new-profile}
+        [:label
+         "Name"
+         [:input
+          {:name "profile"
+           :required true}]]
+        [:label
+         "Type"
+         [:select
+          {:name "type"
+           :required true
+           :default-value (name @current-type)
+           :on-change (fn [e]
+                        (reset! current-type (keyword ^js/String (.-currentTarget.value e))))}
+          [:option
+           {:value "up"}
+           "Count up"]
+          [:option
+           {:value "down"}
+           "Count down"]]]
+        (case @current-type
+          :down [:label
+                 "Starting life"
+                 [:input
+                  {:type "number"
+                   :required true
+                   :name "hp"}]
+                 [:input
+                  {:type "hidden"
+                   :name "end-hp"
+                   :value "0"}]]
+          :up [:label
+               "Winning score"
+               [:input
+                {:type "number"
+                 :required true
+                 :name "end-hp"}]
+               [:input
+                {:type "hidden"
+                 :name "hp"
+                 :value "0"}]])
+        [:button.action "Create"]]])))
 
 (defn- format-time [date]
   (str
@@ -248,4 +323,5 @@
    (case @(re-frame/subscribe [::subs/page])
      :menu [menu]
      :game [counter]
-     :history [history])])
+     :history [history]
+     :new-profile [new-profile])])
