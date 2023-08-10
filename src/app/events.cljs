@@ -1,8 +1,37 @@
 (ns app.events
+  (:refer-clojure :exclude [time])
   (:require
    [clojure.edn :as edn]
    [re-frame.core :as re-frame]
+   [reagent.core :as reagent]
    [app.util :as u]))
+
+(defn- animation-interval
+  "https://gist.github.com/jakearchibald/cb03f15670817001b1157e62a076fe95"
+  [ms signal f]
+  (let [start (.-currentTime js/document.timeline)]
+    (letfn [(frame [time]
+              (when-not (.-aborted signal)
+                (f time)
+                (schedule-frame time)))
+            (schedule-frame [time]
+              (let [elapsed (- time start)
+                    rounded-elapsed (* (js/Math.round (/ elapsed ms)) ms)
+                    target-next (+ start rounded-elapsed ms)
+                    delay (- target-next (js/performance.now))]
+                (js/setTimeout #(js/requestAnimationFrame frame) delay)))]
+      (schedule-frame start))))
+
+(def time (reagent/atom 0))
+
+(re-frame/reg-fx
+ :update-time
+ (fn [interval-ms]
+   (animation-interval
+    interval-ms
+    (.-signal (js/AbortController.))
+    (fn [_]
+      (reset! time (.getTime (js/Date.)))))))
 
 (re-frame/reg-cofx
  :time
@@ -96,7 +125,8 @@
    (let [db (reset-game {:settings (merge default-settings settings)
                          :profiles (if (seq profiles) profiles default-profiles)
                          :app-info {:version app-version}})]
-     (cond-> {:db db}
+     (cond-> {:db db
+              :update-time 1000}
        (not= profiles (:profiles db)) (assoc :profiles (:profiles db))))))
 
 (re-frame/reg-event-db

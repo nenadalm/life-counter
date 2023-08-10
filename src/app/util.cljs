@@ -15,6 +15,13 @@
    (str/lower-case x)
    (str/lower-case y)))
 
+(defn format-elapsed [ms]
+  (let [s (js/Math.trunc (/ ms 1000))
+        m (js/Math.trunc (/ s 60))]
+    (if (== 0 m)
+      (str s "s")
+      (str m "m"))))
+
 (defn merge-close
   "Merges close inputs next to each other
 

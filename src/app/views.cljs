@@ -2,6 +2,7 @@
   (:require
    [reagent.core :as reagent]
    [re-frame.core :as re-frame]
+   [app.util :as u]
    [app.subs :as subs]
    [app.events :as events]
    [app.components.icons.views :as i]))
@@ -58,9 +59,10 @@
             "Update"]]]]))))
 
 (defn amount-history [{:keys [history]}]
-  [:div.life-input--amount-history
-   (for [{:keys [time amount]} history]
-     ^{:key time} [:div (str (when (< 0 amount) "+")) amount])])
+  (let [now @events/time]
+    [:div.life-input--amount-history
+     (for [{:keys [time amount]} history]
+       ^{:key time} [:div (str (when (< 0 amount) "+")) amount " (" (u/format-elapsed (- now time)) ")"])]))
 
 (defn life-input [_]
   (let [event (reagent/atom nil)
