@@ -1,10 +1,10 @@
-const relatedAppVersion = "c3d9f5c3c8b4f5d5d805050cc795e881ca80b6a6";
+const relatedAppVersion = "36c0badc5829cbe934d05564b8a51ac3cc8f25a8";
 const urlsToCache = ["index.html","manifest.json","img/icon.svg","js/app.7C040D89C8D45CD847E83929BE3F9348.js","css/styles.9e19bd93a962bf6536dd8278190bfd72978658ef.css"];
 
 const cacheKey = `resources.${relatedAppVersion}`;
 
 function ensureHtmlVersionMatches(cache) {
-    return cache.match(new Request('/index.html'))
+    return cache.match(new Request('index.html'))
         .then(response => response.text())
         .then(html => html.match(/<meta name="app-version" content="(.*?)">/)[1])
         .then(version => {
