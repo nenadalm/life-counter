@@ -121,11 +121,13 @@
  [(re-frame/inject-cofx :app-version)
   (re-frame/inject-cofx :settings)
   (re-frame/inject-cofx :profiles)]
- (fn [{:keys [app-version settings profiles]} _]
-   (let [db (reset-game {:settings (merge default-settings settings)
-                         :profiles (if (seq profiles) profiles default-profiles)
-                         :app-info {:version app-version}})]
-     (cond-> {:db db
+ (fn [{:keys [app-version settings profiles db]} _]
+   (let [data {:settings (merge default-settings settings)
+               :profiles (if (seq profiles) profiles default-profiles)
+               :app-info {:version app-version}}]
+     (cond-> {:db (if (seq db)
+                    (merge db data)
+                    (reset-game data))
               :update-time 1000}
        (not= profiles (:profiles db)) (assoc :profiles (:profiles db))))))
 
