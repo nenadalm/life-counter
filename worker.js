@@ -1,8 +1,8 @@
-const relatedAppVersion = "c4e2923d953f12a85a407aa1760be0b1e6f0d74a";
+const relatedAppVersion = "889c09873274ca0dcc68c2ca3ee909003c99eda3";
 const urlsToCache = ["index.html","manifest.json","img/icon.svg","js/app.7C040D89C8D45CD847E83929BE3F9348.js","css/styles.9e19bd93a962bf6536dd8278190bfd72978658ef.css"];
 
 const cacheKeyPrefix = 'nenadalm.life-counter.';
-const cacheKey = `${cacheKeyPrefix}.resources.${relatedAppVersion}`;
+const cacheKey = `${cacheKeyPrefix}resources.${relatedAppVersion}`;
 
 function ensureHtmlVersionMatches(cache) {
     return cache.match(new Request('index.html'))
