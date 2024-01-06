@@ -4,7 +4,7 @@ const urlsToCache = ["/", "index.html", "js/app.js", "css/styles.css", "img/icon
 const cacheKey = `resources.${relatedAppVersion}`;
 
 function ensureHtmlVersionMatches(cache) {
-    return cache.match(new Request('/index.html'))
+    return cache.match(new Request('index.html'))
         .then(response => response.text())
         .then(html => html.match(/<meta name="app-version" content="(.*?)">/)[1])
         .then(version => {
