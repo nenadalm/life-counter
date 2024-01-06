@@ -3,17 +3,17 @@
    [jsonista.core :as j]
    [build.util :as u]))
 
-(defn- render []
+(defn render [module-id->output-name]
   (j/write-value-as-string
    {:name "Life counter"
-    :icons [{:src (u/asset "img/icon.svg")
+    :icons [{:src (u/asset "img/icon.svg" module-id->output-name)
              :sizes "any"
              :type "image/svg+xml"}
-            {:src (u/asset "img/icon.svg")
+            {:src (u/asset "img/icon.svg" module-id->output-name)
              :sizes "any"
              :type "image/svg+xml"
              :purpose "maskable"}
-            {:src (u/asset "img/icon_512.png")
+            {:src (u/asset "img/icon_512.png" module-id->output-name)
              :sizes "512x512"
              :type "image/png"
              :purpose "maskable"}]
@@ -21,6 +21,3 @@
     :theme_color "#121212"
     :display "standalone"
     :start_url "index.html"}))
-
-(defn -main [& _]
-  (println (render)))

@@ -45,7 +45,7 @@ jobs:
         run: |
           clojure -Stree
           yarn install
-          make
+          yarn release
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
