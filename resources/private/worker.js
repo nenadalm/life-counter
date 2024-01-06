@@ -2,7 +2,7 @@ const relatedAppVersion = '1'; // prop:relatedAppVersion
 const urlsToCache = ["/", "index.html", "js/app.js", "css/styles.css", "img/icon.svg", "manifest.json"]; // prop:urlsToCache
 
 const cacheKeyPrefix = 'nenadalm.life-counter.';
-const cacheKey = `${cacheKeyPrefix}.resources.${relatedAppVersion}`;
+const cacheKey = `${cacheKeyPrefix}resources.${relatedAppVersion}`;
 
 function ensureHtmlVersionMatches(cache) {
     return cache.match(new Request('index.html'))
