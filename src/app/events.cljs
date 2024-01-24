@@ -4,7 +4,8 @@
    [clojure.edn :as edn]
    [re-frame.core :as re-frame]
    [reagent.core :as reagent]
-   [app.util :as u]))
+   [app.util :as u]
+   [nenadalm.clojure-utils.cljs :as cljs-utils]))
 
 (defn- animation-interval
   "https://gist.github.com/jakearchibald/cb03f15670817001b1157e62a076fe95"
@@ -41,12 +42,7 @@
 (re-frame/reg-cofx
  :app-version
  (fn [coeffects _]
-   (assoc coeffects
-          :app-version
-          (or (some-> "meta[name=app-version]"
-                      js/document.querySelector
-                      (.getAttribute "content"))
-              "unknown"))))
+   (assoc coeffects :app-version (cljs-utils/app-version))))
 
 (re-frame/reg-cofx
  :settings
