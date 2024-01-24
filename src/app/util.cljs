@@ -17,10 +17,12 @@
 
 (defn format-elapsed [ms]
   (let [s (js/Math.trunc (/ ms 1000))
-        m (js/Math.trunc (/ s 60))]
-    (if (== 0 m)
-      (str s "s")
-      (str m "m"))))
+        m (js/Math.trunc (/ s 60))
+        h (js/Math.trunc (/ m 60))]
+    (cond
+      (< 0 h) (str h "h")
+      (< 0 m) (str m "m")
+      :else (str s "s"))))
 
 (defn merge-close
   "Merges close inputs next to each other
