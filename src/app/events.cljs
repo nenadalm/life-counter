@@ -23,7 +23,10 @@
                 (js/setTimeout #(js/requestAnimationFrame frame) delay)))]
       (schedule-frame start))))
 
-(def time (reagent/atom 0))
+(defn- get-time []
+  (.getTime (js/Date.)))
+
+(def time (reagent/atom (get-time)))
 
 (re-frame/reg-fx
  :update-time
@@ -32,7 +35,7 @@
     interval-ms
     (.-signal (js/AbortController.))
     (fn [_]
-      (reset! time (.getTime (js/Date.)))))))
+      (reset! time (get-time))))))
 
 (re-frame/reg-cofx
  :time
