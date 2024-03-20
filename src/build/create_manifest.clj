@@ -7,6 +7,7 @@
   (j/write-value-as-string
    {:name "Life counter"
     :description "Life counter app for 2 players. Supports game profiles, count up/down."
+    :categories ["utilities"]
     :icons [{:src (u/asset "img/icon.svg" module-id->output-name)
              :sizes "any"
              :type "image/svg+xml"}
