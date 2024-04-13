@@ -1,12 +1,13 @@
 (ns build.create-manifest
   (:require
    [jsonista.core :as j]
-   [build.util :as u]))
+   [build.util :as u]
+   [build.config :as c]))
 
 (defn render [module-id->output-name]
   (j/write-value-as-string
-   {:name "Life counter"
-    :description "Life counter app for 2 players. Supports game profiles, count up/down."
+   {:name c/name
+    :description c/description
     :categories ["utilities"]
     :icons [{:src (u/asset "img/icon.svg" module-id->output-name)
              :sizes "any"
