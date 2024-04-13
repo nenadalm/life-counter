@@ -4,4 +4,4 @@
 
 Simple life counter app for 2 players.
 
-<img alt="screenshot" width="240" src="docs/life-counter.png">
+<img alt="screenshot" width="240" src="resources/public/img/screenshot_1.png">
