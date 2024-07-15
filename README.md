@@ -2,6 +2,6 @@
 
 # Life counter
 
-Simple life counter app for 2 players.
+Simple life counter app for 2 - 4 players.
 
 <img alt="screenshot" width="240" src="resources/public/img/screenshot_1.png">
