@@ -113,21 +113,24 @@
        :by-n "+/-n")]))
 
 (defn counter []
-  [:div.counter
-   (for [id @(re-frame/subscribe [::subs/player-ids])]
-     ^{:key id} [life-input {:player-id id}])
-   [:div.title-panel
-    (:profile @(re-frame/subscribe [::subs/settings]))]
-   [:div.action-panel
-    [menu-button]
-    [amount-toggle-button]]])
+  (let [player-ids @(re-frame/subscribe [::subs/player-ids])]
+    [:div.counter
+     (for [id player-ids]
+       ^{:key id} [life-input {:player-id id}])
+     [:div.title-panel
+      (:profile @(re-frame/subscribe [::subs/settings]))]
+     [:div.action-panel
+      {:style {:height (str "calc((100% / " (count player-ids) ") * 2)")}}
+      [menu-button]
+      [amount-toggle-button]]]))
 
 (defn- submit-menu [e]
   (.preventDefault e)
   (re-frame/dispatch
    [::events/save-settings
     (-> (form-data (.-currentTarget e))
-        (update :merge-events-threshold parse-int))]))
+        (update :merge-events-threshold parse-int)
+        (update :players-count parse-int))]))
 
 (defn menu []
   (let [selected-profile (reagent/atom nil)]
@@ -196,9 +199,18 @@
              :on-click (fn [_] (re-frame/dispatch [::events/delete-profile (:profile profile)]))}
             "Delete"]]
           [:label
+           "Number of players"
+           [:input
+            {:type "number"
+             :min "2"
+             :max "4"
+             :name "players-count"
+             :default-value (:players-count settings)}]]
+          [:label
            "Merge threshold (ms)"
            [:input
             {:type "number"
+             :min "0"
              :name "merge-events-threshold"
              :default-value (:merge-events-threshold settings)}]]
           [:button.action "Save & reset game"]]
@@ -286,8 +298,7 @@
 
 (defn- history []
   (let [amount-changes @(re-frame/subscribe [::subs/all-amount-changes])
-        player0 @(re-frame/subscribe [::subs/player "0"])
-        player1 @(re-frame/subscribe [::subs/player "1"])]
+        all-players @(re-frame/subscribe [::subs/all-players])]
     [:div.history
      [:div.history--header
       [:button.back
@@ -300,25 +311,18 @@
       [:tbody
        (for [{:keys [time player] :as change} amount-changes]
          ^{:key time} [:tr
-                       [:td.history-cell
-                        {:style {:color (:text-color player0)
-                                 :background-color (:color player0)}}
-                        (when (= player "0")
-                          (format-history-cell change))]
-                       [:td.history-cell
-                        {:style {:color (:text-color player1)
-                                 :background-color (:color player1)}}
-                        (when (= player "1")
-                          (format-history-cell change))]])
+                       (for [cplayer all-players]
+                         ^{:key (:id cplayer)} [:td.history-cell
+                                                {:style {:color (:text-color cplayer)
+                                                         :background-color (:color cplayer)}}
+                                                (when (= player (:id cplayer))
+                                                  (format-history-cell change))])])
        [:tr
-        [:td.history-cell
-         {:style {:color (:text-color player0)
-                  :background-color (:color player0)}}
-         (:initial-amount player0)]
-        [:td.history-cell
-         {:style {:color (:text-color player1)
-                  :background-color (:color player1)}}
-         (:initial-amount player1)]]]]]))
+        (for [cplayer all-players]
+          ^{:key (:id cplayer)} [:td.history-cell
+                                 {:style {:color (:text-color cplayer)
+                                          :background-color (:color cplayer)}}
+                                 (:initial-amount cplayer)])]]]]))
 
 (defn app []
   [:<>

@@ -8,23 +8,30 @@
  (fn [db _]
    (keys (get-in db [:game :players]))))
 
-(defn- opponent [player-id]
-  (case player-id
-    "0" "1"
-    "1" "0"))
+(defn- player [db id]
+  (let [players (get-in db [:game :players])
+        player (get players id)
+        opponent-players (vals (dissoc players id))
+        {:keys [profile]} (:settings db)
+        {:keys [end-hp type]} (get-in db [:profiles profile])]
+    (assoc player :winner (case type
+                            :down (every?
+                                   (fn [opponent-player]
+                                     (<= (:amount opponent-player) end-hp))
+                                   opponent-players)
+                            :up (<= end-hp (:amount player))
+                            false))))
 
 (re-frame/reg-sub
  ::player
  (fn [db [_ id]]
-   (let [players (get-in db [:game :players])
-         player (get players id)
-         opponent-player (get players (opponent id))
-         {:keys [profile]} (:settings db)
-         {:keys [end-hp type]} (get-in db [:profiles profile])]
-     (assoc player :winner (case type
-                             :down (<= (:amount opponent-player) end-hp)
-                             :up (<= end-hp (:amount player))
-                             false)))))
+   (player db id)))
+
+(re-frame/reg-sub
+ ::all-players
+ (fn [db]
+   (let [player-ids (keys (get-in db [:game :players]))]
+     (mapv #(player db %) player-ids))))
 
 (defn- events-close? [threshold e1 e2]
   (and

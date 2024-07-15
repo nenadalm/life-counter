@@ -89,10 +89,15 @@
      :end-hp 0
      :type :down}]))
 
+(def ^:private player-templates
+  [{:id "0" :color "#3797fa" :text-color "rgba(0, 0, 0, 0.87)"}
+   {:id "1" :color "#cf6666" :text-color "rgba(0, 0, 0, 0.87)"}
+   {:id "2" :color "#faea37" :text-color "rgba(0, 0, 0, 0.87)"}
+   {:id "3" :color "#37fa91" :text-color "rgba(0, 0, 0, 0.87)"}])
+
 (def ^:private default-settings
   {:merge-events-threshold 1000
-   :players [{:id "0" :color "#cf6666" :text-color "rgba(0, 0, 0, 0.87)"}
-             {:id "1" :color "#3797fa" :text-color "rgba(0, 0, 0, 0.87)"}]
+   :players-count 2
    :profile "Star Realms"})
 
 (defn- create-game [settings profiles]
@@ -106,7 +111,7 @@
                          :initial-amount (:hp profile)
                          :amount (:hp profile))))
                {}
-               (:players settings))
+               (reverse (take (:players-count settings) player-templates)))
      :change-type :by-1 ;; :by-1 | :by-n
      :events []}))
 
