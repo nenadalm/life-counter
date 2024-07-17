@@ -89,11 +89,28 @@
      :end-hp 0
      :type :down}]))
 
-(def ^:private player-templates
+(def player-templates
   [{:id "0" :color "#3797fa" :text-color "rgba(0, 0, 0, 0.87)"}
    {:id "1" :color "#cf6666" :text-color "rgba(0, 0, 0, 0.87)"}
    {:id "2" :color "#faea37" :text-color "rgba(0, 0, 0, 0.87)"}
    {:id "3" :color "#37fa91" :text-color "rgba(0, 0, 0, 0.87)"}])
+
+(def id->player (u/index-by :id player-templates))
+
+(defn default-player-layout [players-count]
+  (mapv
+   (fn [player] [(:id player)])
+   (reverse (take players-count player-templates))))
+
+(defn layout-player-count [layout]
+  (count (into [] cat layout)))
+
+(defn- player-layout [settings player-count]
+  (let [player-layout (:player-layout settings)]
+    (if (and player-layout
+             (== player-count (layout-player-count player-layout)))
+      player-layout
+      (default-player-layout player-count))))
 
 (def ^:private default-settings
   {:merge-events-threshold 1000
@@ -102,7 +119,8 @@
 
 (defn- create-game [settings profiles]
   (let [profile (profiles (:profile settings))]
-    {:players (reduce
+    {:player-layout (player-layout settings (:players-count settings))
+     :players (reduce
                (fn [res player]
                  (assoc
                   res

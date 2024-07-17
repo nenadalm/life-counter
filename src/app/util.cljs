@@ -10,6 +10,9 @@
         (assoc! ret k x)))
     (transient {}) coll)))
 
+(defn vector-entries [coll]
+  (into [] (map-indexed vector) coll))
+
 (defn compare-ci [x y]
   (compare
    (str/lower-case x)

@@ -8,6 +8,11 @@
  (fn [db _]
    (keys (get-in db [:game :players]))))
 
+(re-frame/reg-sub
+ ::player-layout
+ (fn [db _]
+   (get-in db [:game :player-layout])))
+
 (defn- player [db id]
   (let [players (get-in db [:game :players])
         player (get players id)
