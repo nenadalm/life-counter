@@ -150,8 +150,7 @@
      (cond-> {:db (if (seq db)
                     (merge db data)
                     (reset-game data))
-              :update-time 1000}
-       (not= profiles (:profiles db)) (assoc :profiles (:profiles db))))))
+              :update-time 1000}))))
 
 (re-frame/reg-event-db
  ::reset
