@@ -103,7 +103,7 @@ hr {
     flex-direction: column;
 }
 
-.life-input-group:first-child .life-input { transform: rotate(180deg); }
+.life-input.rotate-180 { transform: rotate(180deg); }
 
 .life-input-group { flex-grow: 1; display: flex; position: relative; }
 .life-input { flex-grow: 1; display: flex; align-items: center; position: relative; overflow: hidden; }
