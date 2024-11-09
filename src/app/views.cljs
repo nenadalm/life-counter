@@ -21,6 +21,10 @@
                [(keyword k) v]))
         (.entries (js/FormData. form-el))))
 
+(defn- life-input-class [group-idx]
+  (when (== 0 group-idx)
+    "rotate-180"))
+
 (defn amount-modifier [_]
   (let [form-el (atom nil)
         modal-el (atom nil)
@@ -72,11 +76,12 @@
 (defn life-input [_]
   (let [event (reagent/atom nil)
         on-request-close (fn [] (reset! event nil))]
-    (fn [{:keys [player-id]}]
+    (fn [{:keys [player-id class]}]
       (let [player @(re-frame/subscribe [::subs/player player-id])
             change-type @(re-frame/subscribe [::subs/change-type])
             {:keys [amount color text-color winner]} player]
         [:div.life-input
+         {:class class}
          [:button.life-input--button
           {:style {:color text-color
                    :background-color color}
@@ -119,11 +124,11 @@
 (defn counter []
   (let [player-layout @(re-frame/subscribe [::subs/player-layout])]
     [:div.counter
-     (for [group player-layout]
+     (for [[group-idx group] (u/vector-entries player-layout)]
        ^{:key (str/join "-" group)}
        [:div.life-input-group
         (for [player-id group]
-          ^{:key player-id} [life-input {:player-id player-id}])])
+          ^{:key player-id} [life-input {:player-id player-id :class (life-input-class group-idx)}])])
      [:div.title-panel
       (:profile @(re-frame/subscribe [::subs/settings]))]
      [:div.action-panel
@@ -199,7 +204,8 @@
               (for [player-id group]
                 (let [{:keys [id color text-color]} (events/id->player player-id)]
                   ^{:key id} [:div.life-input
-                              {:style {:color text-color
+                              {:class (life-input-class group-idx)
+                               :style {:color text-color
                                        :background-color color}}
                               [:div.life-input--amount
                                [i/person]]]))
