@@ -103,11 +103,30 @@ hr {
     flex-direction: column;
 }
 
+.life-input.rotate-90 {
+    .life-input--amount { transform: rotate(90deg); }
+
+    .life-input--amount-history { transform: rotate(90deg); transform-origin: 50% -4rem; }
+
+    .life-input--buttons { flex-direction: column; }
+    .life-input--button { width: 100%; height: unset; }
+}
+
 .life-input.rotate-180 { transform: rotate(180deg); }
 
-.life-input-group { flex-grow: 1; display: flex; position: relative; }
+.life-input.rotate-270 {
+    .life-input--amount { transform: rotate(270deg); }
+
+    .life-input--amount-history { transform: rotate(270deg); transform-origin: 50% -4rem; }
+
+    .life-input--buttons { flex-direction: column; }
+    .life-input--button { width: 100%; height: unset; }
+}
+
+.life-input-group { flex-grow: 1; display: flex; position: relative; height: 0; }
 .life-input { flex-grow: 1; display: flex; align-items: center; position: relative; overflow: hidden; }
 
+.life-input--buttons { flex-grow: 1; height: 100%; display: flex; }
 .life-input--button { flex-grow: 1; background: none; height: 100%; width: 0; font-size: 5rem; border: none; }
 .life-input--button:focus-visible { outline: none; }
 .life-input--button:active { opacity: 0.7; }
