@@ -7,6 +7,20 @@
    [app.util :as u]
    [nenadalm.clojure-utils.cljs :as cljs-utils]))
 
+(def ^:private rotations [0 90 180 270])
+
+(def ^:private next-rotation
+  (reduce
+   (fn [acc [k v]] (assoc acc k v))
+   {}
+   (conj
+    (partition 2 1 rotations)
+    [(peek rotations) (first rotations)]
+    [nil 90])))
+
+(defn rotate-player [player]
+  (update player :rotate next-rotation))
+
 (defn- animation-interval
   "https://gist.github.com/jakearchibald/cb03f15670817001b1157e62a076fe95"
   [ms signal f]
@@ -95,19 +109,22 @@
    {:id "2" :color "#faea37" :text-color "rgba(0, 0, 0, 0.87)"}
    {:id "3" :color "#37fa91" :text-color "rgba(0, 0, 0, 0.87)"}])
 
-(def id->player (u/index-by :id player-templates))
-
 (defn default-player-layout [players-count]
-  (mapv
-   (fn [player] [(:id player)])
-   (reverse (take players-count player-templates))))
+  (-> (mapv
+       (fn [player] [player])
+       (reverse (take players-count player-templates)))
+      (update 0 (fn [players] (mapv (fn [player] (assoc player :rotate 180)) players)))))
 
 (defn layout-player-count [layout]
   (count (into [] cat layout)))
 
+(defn- valid-player-layout? [player-layout]
+  (map? (ffirst player-layout)))
+
 (defn- player-layout [settings player-count]
   (let [player-layout (:player-layout settings)]
     (if (and player-layout
+             (valid-player-layout? player-layout)
              (== player-count (layout-player-count player-layout)))
       player-layout
       (default-player-layout player-count))))

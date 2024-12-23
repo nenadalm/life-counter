@@ -21,9 +21,8 @@
                [(keyword k) v]))
         (.entries (js/FormData. form-el))))
 
-(defn- life-input-class [group-idx]
-  (when (== 0 group-idx)
-    "rotate-180"))
+(defn- life-input-class [player]
+  (str "rotate-" (:rotate player 0)))
 
 (defn amount-modifier [_]
   (let [form-el (atom nil)
@@ -125,11 +124,11 @@
 (defn counter []
   (let [player-layout @(re-frame/subscribe [::subs/player-layout])]
     [:div.counter
-     (for [[group-idx group] (u/vector-entries player-layout)]
+     (for [[_ group] (u/vector-entries player-layout)]
        ^{:key (str/join "-" group)}
        [:div.life-input-group
-        (for [player-id group]
-          ^{:key player-id} [life-input {:player-id player-id :class (life-input-class group-idx)}])])
+        (for [player group]
+          ^{:key (:id player)} [life-input {:player-id (:id player) :class (life-input-class player)}])])
      [:div.title-panel
       (:profile @(re-frame/subscribe [::subs/settings]))]
      [:div.action-panel
@@ -202,14 +201,28 @@
            (for [[group-idx group] (u/vector-entries table-layout)]
              ^{:key (str/join "-" group)}
              [:div.life-input-group
-              (for [player-id group]
-                (let [{:keys [id color text-color]} (events/id->player player-id)]
+              (for [player group]
+                (let [{:keys [id color text-color]} player]
                   ^{:key id} [:div.life-input
-                              {:class (life-input-class group-idx)
+                              {:class (life-input-class player)
                                :style {:color text-color
                                        :background-color color}}
                               [:div.life-input--amount
-                               [i/person]]]))
+                               [:button
+                                {:type "button"
+                                 :on-click (fn [_]
+                                             (swap! atable-layout (fn [groups]
+                                                                    (update-in
+                                                                     groups
+                                                                     [group-idx]
+                                                                     (fn [players]
+                                                                       (mapv
+                                                                        (fn [player*]
+                                                                          (if (= (:id player) (:id player*))
+                                                                            (events/rotate-player player)
+                                                                            player*))
+                                                                        players))))))}
+                                [i/person]]]]))
               (cond
                 (== 2 (count group))
                 [:div.counter-preview--col-action-panel
