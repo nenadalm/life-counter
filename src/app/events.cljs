@@ -107,7 +107,11 @@
   [{:id "0" :color "#3797fa" :text-color "rgba(0, 0, 0, 0.87)"}
    {:id "1" :color "#cf6666" :text-color "rgba(0, 0, 0, 0.87)"}
    {:id "2" :color "#faea37" :text-color "rgba(0, 0, 0, 0.87)"}
-   {:id "3" :color "#37fa91" :text-color "rgba(0, 0, 0, 0.87)"}])
+   {:id "3" :color "#37fa91" :text-color "rgba(0, 0, 0, 0.87)"}
+   {:id "4" :color "#fab737" :text-color "rgba(0, 0, 0, 0.87)"}
+   {:id "5" :color "#fa37dc" :text-color "rgba(0, 0, 0, 0.87)"}])
+
+(def max-player-count (count player-templates))
 
 (defn default-player-layout [players-count]
   (-> (mapv

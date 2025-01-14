@@ -335,7 +335,7 @@
                  :default-value (str (:players-count settings))
                  :on-change (fn [^js e]
                               (reset! aplayers-count (parse-int (.-currentTarget.value e))))}
-                (for [players-count (range 2 5)]
+                (for [players-count (range 2 (inc events/max-player-count))]
                   ^{:key players-count} [:option {:value players-count} players-count])]]
               [layout aplayers-count]
               [:label
