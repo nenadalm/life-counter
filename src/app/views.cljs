@@ -78,20 +78,20 @@
     (fn [{:keys [player-id class]}]
       (let [player @(re-frame/subscribe [::subs/player player-id])
             change-type @(re-frame/subscribe [::subs/change-type])
-            {:keys [amount color text-color winner]} player]
+            {:keys [amount color text-color medium-text-color winner]} player]
         [:div.life-input
          {:class class}
          [:div.life-input--buttons
-          [:button.life-input--button
-           {:style {:color text-color
+          [:button.life-input--button.subtract-life
+           {:style {:color medium-text-color
                     :background-color color}
             :on-click (fn []
                         (if (= change-type :by-1)
                           (re-frame/dispatch [::events/decrease-amount player-id 1])
                           (reset! event ::events/decrease-amount)))}
            "-"]
-          [:button.life-input--button
-           {:style {:color text-color
+          [:button.life-input--button.add-life
+           {:style {:color medium-text-color
                     :background-color color}
             :on-click (fn []
                         (if (= change-type :by-1)
