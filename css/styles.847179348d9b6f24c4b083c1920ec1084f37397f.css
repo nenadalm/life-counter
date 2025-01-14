@@ -1,5 +1,6 @@
 :root {
     --text-color: rgba(255, 255, 255, 0.87);
+    --medium-text-color: rgba(255, 255, 255, 0.60);
     --text-medium-color: rgba(255, 255, 255, 0.6);
     --background-color: #121212;
     --background-e1: rgba(255, 255, 255, 0.07);
@@ -106,10 +107,12 @@ hr {
 .life-input.rotate-90 {
     .life-input--amount { transform: rotate(90deg); }
 
-    .life-input--amount-history { transform: rotate(90deg); transform-origin: 50% -4rem; }
+    .life-input--amount-history { transform: rotate(90deg); transform-origin: 50% -3rem; }
 
     .life-input--buttons { flex-direction: column; }
-    .life-input--button { width: 100%; height: unset; }
+    .life-input--button { width: 100%; height: unset; writing-mode: sideways-lr; }
+    .life-input--button.add-life { text-align: left; }
+    .life-input--button.subtract-life {text-align: right; }
 }
 
 .life-input.rotate-180 { transform: rotate(180deg); }
@@ -117,10 +120,12 @@ hr {
 .life-input.rotate-270 {
     .life-input--amount { transform: rotate(270deg); }
 
-    .life-input--amount-history { transform: rotate(270deg); transform-origin: 50% -4rem; }
+    .life-input--amount-history { transform: rotate(270deg); transform-origin: 50% -3rem; }
 
     .life-input--buttons { flex-direction: column; }
-    .life-input--button { width: 100%; height: unset; }
+    .life-input--button { width: 100%; height: unset; writing-mode: sideways-lr; }
+    .life-input--button.add-life { text-align: left; }
+    .life-input--button.subtract-life {text-align: right; }
 }
 
 .life-input-group { flex-grow: 1; display: flex; position: relative; height: 0; }
@@ -128,6 +133,8 @@ hr {
 
 .life-input--buttons { flex-grow: 1; height: 100%; display: flex; }
 .life-input--button { flex-grow: 1; background: none; height: 100%; width: 0; font-size: 5rem; border: none; }
+.life-input--button.add-life { text-align: right; }
+.life-input--button.subtract-life {text-align: left; }
 .life-input--button:focus-visible { outline: none; }
 .life-input--button:active { opacity: 0.7; }
 
@@ -141,7 +148,7 @@ hr {
     display: flex;
     flex-direction: column;
     align-items: center;
-    top: calc(50% + 4rem);
+    top: calc(50% + 3rem);
     pointer-events: none;
 }
 
