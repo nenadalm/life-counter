@@ -113,11 +113,30 @@
 
 (def max-player-count (count player-templates))
 
+(defn update-default-rotations [layout]
+  (let [players-cnt-per-group (mapv count layout)
+        groups-cnt (count players-cnt-per-group)]
+    (if (and (not= 2 groups-cnt) (every? #(= 1 %) players-cnt-per-group))
+      (mapv (fn [players] (mapv (fn [player] (dissoc player :rotate)) players)) layout)
+      (as-> layout $
+        (update $ 0 (fn [players] (mapv (fn [player] (assoc player :rotate 180)) players)))
+        (reduce
+         (fn [layout idx]
+           (update layout idx (fn [players]
+                                (if (= 2 (count players))
+                                  (-> players
+                                      (update 0 (fn [player] (assoc player :rotate 90)))
+                                      (update 1 (fn [player] (assoc player :rotate 270))))
+                                  (mapv (fn [player] (dissoc player :rotate)) players)))))
+         $
+         (range 1 (dec groups-cnt)))
+        (update $ (dec groups-cnt) (fn [players] (mapv (fn [player] (dissoc player :rotate)) players)))))))
+
 (defn default-player-layout [players-count]
   (-> (mapv
        (fn [player] [player])
        (reverse (take players-count player-templates)))
-      (update 0 (fn [players] (mapv (fn [player] (assoc player :rotate 180)) players)))))
+      update-default-rotations))
 
 (defn layout-player-count [layout]
   (count (into [] cat layout)))

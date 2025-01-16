@@ -230,13 +230,13 @@
                   {:type "button"
                    :on-click (fn [_]
                                (swap! atable-layout (fn [groups]
-                                                      (split-up groups group-idx))))}
+                                                      (events/update-default-rotations (split-up groups group-idx)))))}
                   [i/rows]]
                  [:button.counter-preview--action-button
                   {:type "button"
                    :on-click (fn [_]
                                (swap! atable-layout (fn [groups]
-                                                      (reverse-group groups group-idx))))}
+                                                      (events/update-default-rotations (reverse-group groups group-idx)))))}
                   [i/right-left]]]
 
                 (and
@@ -248,11 +248,11 @@
                   {:type "button"
                    :on-click (fn [_]
                                (swap! atable-layout (fn [groups]
-                                                      (merge-up groups group-idx))))}
+                                                      (events/update-default-rotations (merge-up groups group-idx)))))}
                   [i/columns]]
                  [:button.counter-preview--action-button
                   {:type "button"
-                   :on-click (fn [_] (swap! atable-layout (fn [groups] (move-up groups group-idx))))}
+                   :on-click (fn [_] (swap! atable-layout (fn [groups] (events/update-default-rotations (move-up groups group-idx)))))}
                   [i/up-down]]])])]]
          [:input
           {:type "hidden"

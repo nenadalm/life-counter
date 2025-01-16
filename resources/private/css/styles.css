@@ -124,8 +124,7 @@ hr {
 
     .life-input--buttons { flex-direction: column; }
     .life-input--button { width: 100%; height: unset; writing-mode: sideways-lr; }
-    .life-input--button.add-life { text-align: left; }
-    .life-input--button.subtract-life {text-align: right; }
+    .life-input--button.add-life { order: -1; }
 }
 
 .life-input-group { flex-grow: 1; display: flex; position: relative; height: 0; }
