@@ -308,7 +308,12 @@
                       [:label
                        "Winning score"
                        [:input {:disabled true
-                                :value (:end-hp profile)}]]]
+                                :value (:end-hp profile)}]]
+                      [:select
+                       {:disabled true
+                        :value (:winner profile "highest")}
+                       [:option {:value "highest"} "Highest wins"]
+                       [:option {:value "lowest"} "Lowest wins"]]]
                  :down [:<>
                         [:label
                          "Type"
@@ -361,7 +366,11 @@
     (-> (form-data (.-currentTarget e))
         (update :type keyword)
         (update :hp parse-int)
-        (update :end-hp parse-int))]))
+        (update :end-hp parse-int)
+        ((fn [data]
+           (if (not-empty (:winner data))
+             (update data :winner keyword)
+             (dissoc data :winner)))))]))
 
 (defn- new-profile []
   (let [current-type (reagent/atom :down)]
@@ -412,7 +421,13 @@
                [:input
                 {:type "hidden"
                  :name "hp"
-                 :value "0"}]])
+                 :value "0"}]
+               [:select
+                  {:name "winner"
+                   :required true
+                   :default-value "highest"}
+                  [:option {:value "highest"} "Highest wins"]
+                  [:option {:value "lowest"} "Lowest wins"]]])
         [:button.action "Create"]]])))
 
 (defn- format-time [date]

@@ -16,15 +16,21 @@
 (defn- player [db id]
   (let [players (get-in db [:game :players])
         player (get players id)
-        opponent-players (vals (dissoc players id))
         {:keys [profile]} (:settings db)
-        {:keys [end-hp type]} (get-in db [:profiles profile])]
+        {:keys [end-hp type winner]} (get-in db [:profiles profile])]
     (assoc player :winner (case type
-                            :down (every?
-                                   (fn [opponent-player]
-                                     (<= (:amount opponent-player) end-hp))
-                                   opponent-players)
-                            :up (<= end-hp (:amount player))
+                            :down (let [opponent-players (vals (dissoc players id))]
+                                    (every?
+                                     (fn [opponent-player]
+                                       (<= (:amount opponent-player) end-hp))
+                                     opponent-players))
+                            :up (let [amounts (mapv :amount (vals players))
+                                      lowest-amount (reduce min amounts)
+                                      highest-amount (reduce max amounts)]
+                                  (if (= :lowest winner)
+                                    (and (<= end-hp highest-amount)
+                                         (= lowest-amount (:amount player)))
+                                    (<= end-hp highest-amount (:amount player))))
                             false))))
 
 (re-frame/reg-sub
