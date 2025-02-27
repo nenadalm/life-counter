@@ -423,11 +423,11 @@
                  :name "hp"
                  :value "0"}]
                [:select
-                  {:name "winner"
-                   :required true
-                   :default-value "highest"}
-                  [:option {:value "highest"} "Highest wins"]
-                  [:option {:value "lowest"} "Lowest wins"]]])
+                {:name "winner"
+                 :required true
+                 :default-value "highest"}
+                [:option {:value "highest"} "Highest wins"]
+                [:option {:value "lowest"} "Lowest wins"]]])
         [:button.action "Create"]]])))
 
 (defn- format-time [date]
