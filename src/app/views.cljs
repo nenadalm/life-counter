@@ -322,7 +322,12 @@
                         [:label
                          "Starting life"
                          [:input {:disabled true
-                                  :value (:hp profile)}]]]
+                                  :value (:hp profile)}]]
+                        [:select
+                         {:disabled true
+                          :value (:winner profile "highest")}
+                         [:option {:value "highest"} "Highest wins"]
+                         [:option {:value "lowest"} "Lowest wins"]]]
                  nil)
                [:button.action
                 {:type "button"
@@ -411,7 +416,13 @@
                  [:input
                   {:type "hidden"
                    :name "end-hp"
-                   :value "0"}]]
+                   :value "0"}]
+                 [:select
+                  {:name "winner"
+                   :required true
+                   :default-value "highest"}
+                  [:option {:value "highest"} "Highest wins"]
+                  [:option {:value "lowest"} "Lowest wins"]]]
           :up [:label
                "Winning score"
                [:input
