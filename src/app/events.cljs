@@ -208,11 +208,14 @@
 (re-frame/reg-event-fx
  ::save-profile
  (fn [{:keys [db]} [_ profile]]
-   (let [db (-> db
-                (update :profiles assoc (:profile profile) profile)
+   (let [profile-name (:profile profile)
+         db (-> db
+                (update :profiles assoc profile-name profile)
+                (update :settings assoc :profile profile-name)
                 (assoc :page :menu))]
      {:db db
-      :profiles (:profiles db)})))
+      :profiles (:profiles db)
+      :settings (:settings db)})))
 
 (re-frame/reg-event-fx
  ::delete-profile
