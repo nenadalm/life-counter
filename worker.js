@@ -1,5 +1,5 @@
-const relatedAppVersion = "417452950f2480fb1ad23157d683e1798b66fe30";
-const urlsToCache = ["index.html","manifest.json","img/icon.svg","js/app.3AE054B99CFF6E5D19E9EB848D70CAEE.js","css/styles.18a8adad67f8c51fd63b7800bb5fef2ea57e682b.css"];
+const relatedAppVersion = "bdcf2b541d28ffa1a7e56c844c5d43ea18a61755";
+const urlsToCache = ["index.html","manifest.json","img/icon.svg","js/app.99310274747291BF7D755E61EAF36346.js","css/styles.3c11952f8de8fc64e3c6fbc842020e806094b187.css"];
 
 const cacheKeyPrefix = 'nenadalm.life-counter.';
 const cacheKey = `${cacheKeyPrefix}resources.${relatedAppVersion}`;
