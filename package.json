@@ -8,10 +8,11 @@
     "clean": "rm -rf resources/public/js resources/public/css resources/public/index.html resources/public/worker.js resources/public/manifest.json"
   },
   "devDependencies": {
-    "shadow-cljs": "^2.20.20"
+    "shadow-cljs": "2.28.21"
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
