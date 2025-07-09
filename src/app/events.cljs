@@ -109,7 +109,9 @@
    {:id "2" :color "#faea37" :text-color "rgba(0, 0, 0, 0.87)" :medium-text-color "rgba(0, 0, 0, 0.60)"}
    {:id "3" :color "#37fa91" :text-color "rgba(0, 0, 0, 0.87)" :medium-text-color "rgba(0, 0, 0, 0.60)"}
    {:id "4" :color "#fab737" :text-color "rgba(0, 0, 0, 0.87)" :medium-text-color "rgba(0, 0, 0, 0.60)"}
-   {:id "5" :color "#fa37dc" :text-color "rgba(0, 0, 0, 0.87)" :medium-text-color "rgba(0, 0, 0, 0.60)"}])
+   {:id "5" :color "#fa37dc" :text-color "rgba(0, 0, 0, 0.87)" :medium-text-color "rgba(0, 0, 0, 0.60)"}
+   {:id "6" :color "#bd37fa" :text-color "rgba(0, 0, 0, 0.87)" :medium-text-color "rgba(0, 0, 0, 0.60)"}
+   {:id "7" :color "#37e8fa" :text-color "rgba(0, 0, 0, 0.87)" :medium-text-color "rgba(0, 0, 0, 0.60)"}])
 
 (def max-player-count (count player-templates))
 
