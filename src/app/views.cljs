@@ -61,6 +61,7 @@
           [:input
            {:type "number"
             :name "amount"
+            :required true
             :ref (fn [el] (when el (.focus el)))}]
           [:div.dialog--actions
            [:button.ok
