@@ -1,4 +1,4 @@
-const relatedAppVersion = "f542bb1580a251e3f7a3bbca4b76bdc4d040954f";
+const relatedAppVersion = "54e883f99ed0270698ca8821bcf495244fc97af3";
 const urlsToCache = ["index.html","manifest.json","img/icon.svg","js/app.BFB83F676120C5850BE3068A31249B91.js","css/styles.3c11952f8de8fc64e3c6fbc842020e806094b187.css"];
 
 const cacheKeyPrefix = 'nenadalm.life-counter.';
