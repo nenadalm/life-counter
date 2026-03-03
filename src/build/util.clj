@@ -36,3 +36,19 @@
 
 (defn app-version []
   (sh "git" "rev-parse" "HEAD"))
+
+(defn- svg->png [{:keys [input output target-size] :as opts}]
+  (sh "inkscape" input "--export-width" (str target-size) "--export-filename" output)
+
+  ;; inkscape always exits with 0 exit code: https://gitlab.com/inkscape/inkscape/-/issues/270
+  ;; so this is basic check that expected file exists
+  (when-not (.exists (io/file output))
+    (throw (ex-info "Couldn't convert svg to png" opts))))
+
+(defn generate-png-icons [input]
+  (doseq [size [192 512]]
+    (let [file (first (str/split input #"\.(?=[^\.]*$)"))
+          output (str file "_" size ".png")]
+      (svg->png {:input input
+                 :output output
+                 :target-size size}))))
