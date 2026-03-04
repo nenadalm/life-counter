@@ -8,7 +8,7 @@
     "clean": "rm -rf resources/public/js resources/public/css resources/public/index.html resources/public/worker.js resources/public/manifest.json"
   },
   "devDependencies": {
-    "shadow-cljs": "2.28.21"
+    "shadow-cljs": "3.3.6"
   },
   "dependencies": {
     "react": "^18.2.0",
